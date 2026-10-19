@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Loknath Restaurant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- SUPABASE SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background-color: #111827; color: #f3f4f6; }
+        .accent-bg { background-color: #f97316; }
+        .accent-text { color: #f97316; }
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.7); }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- LOGIN -->
+    <div id="login-section" class="min-h-screen flex items-center justify-center px-4">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md border border-gray-700">
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-bold accent-text mb-2">Admin Login</h2>
+            </div>
+            <div class="space-y-4">
+                <input type="text" id="username" class="w-full p-3 rounded bg-gray-700 border border-gray-600 text-white outline-none focus:border-orange-500" placeholder="Username (admin)">
+                <input type="password" id="password" class="w-full p-3 rounded bg-gray-700 border border-gray-600 text-white outline-none focus:border-orange-500" placeholder="Password (admin123)">
+                <button onclick="login()" class="w-full py-3 rounded text-white font-bold accent-bg hover:bg-orange-700 transition">Login</button>
+            </div>
+            <p id="login-error" class="text-red-500 text-sm mt-3 text-center hidden">Invalid Credentials!</p>
+        </div>
+    </div>
+
+    <!-- ADMIN LAYOUT -->
+    <div id="admin-layout" class="hidden flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 border-r border-gray-700 flex flex-col hidden md:flex">
+            <div class="p-6 border-b border-gray-700">
+                <h2 class="text-xl font-bold accent-text">Loknath Admin</h2>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" onclick="switchTab('dashboard')" id="tab-dashboard" class="block p-3 rounded bg-gray-700 text-white"><i class="fas fa-home w-6"></i> Dashboard</a>
+                <a href="#" onclick="switchTab('menu')" id="tab-menu" class="block p-3 rounded text-gray-400 hover:bg-gray-700 hover:text-white"><i class="fas fa-utensils w-6"></i> Menu Items</a>
+                <a href="#" onclick="switchTab('orders')" id="tab-orders" class="block p-3 rounded text-gray-400 hover:bg-gray-700 hover:text-white"><i class="fas fa-shopping-bag w-6"></i> Orders</a>
+            </nav>
+            <div class="p-4 border-t border-gray-700">
+                <button onclick="logout()" class="w-full p-2 text-red-400 hover:bg-gray-700 rounded"><i class="fas fa-sign-out-alt w-6"></i> Logout</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-y-auto p-4 md:p-8">
+            
+            <!-- Mobile Header -->
+            <div class="md:hidden flex justify-between items-center mb-6 bg-gray-800 p-4 rounded-lg">
+                <h2 class="font-bold accent-text">Loknath Admin</h2>
+                <div class="space-x-3 text-sm">
+                    <button onclick="switchTab('dashboard')"><i class="fas fa-home"></i></button>
+                    <button onclick="switchTab('menu')"><i class="fas fa-utensils"></i></button>
+                    <button onclick="switchTab('orders')"><i class="fas fa-shopping-bag"></i></button>
+                    <button onclick="logout()" class="text-red-400"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+
+            <!-- DASHBOARD -->
+            <div id="sec-dashboard" class="section-content">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">Dashboard Overview</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-orange-500 shadow">
+                        <h3 class="text-gray-400 text-lg">Total Orders</h3>
+                        <p id="stat-orders" class="text-3xl font-bold text-white mt-2">0</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-yellow-500 shadow">
+                        <h3 class="text-gray-400 text-lg">Pending Orders</h3>
+                        <p id="stat-pending" class="text-3xl font-bold text-white mt-2">0</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-green-500 shadow">
+                        <h3 class="text-gray-400 text-lg">Menu Items</h3>
+                        <p id="stat-menu" class="text-3xl font-bold text-white mt-2">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MENU MANAGEMENT -->
+            <div id="sec-menu" class="section-content hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Manage Menu</h2>
+                    <button onclick="openMenuModal()" class="px-4 py-2 accent-bg text-white rounded font-bold"><i class="fas fa-plus mr-2"></i>Add Item</button>
+                </div>
+                <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-x-auto">
+                    <table class="w-full text-left whitespace-nowrap">
+                        <thead>
+                            <tr class="bg-gray-900 border-b border-gray-700">
+                                <th class="p-4 text-gray-300">Name</th>
+                                <th class="p-4 text-gray-300">Category</th>
+                                <th class="p-4 text-gray-300">Price</th>
+                                <th class="p-4 text-gray-300 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="menu-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ORDERS MANAGEMENT -->
+            <div id="sec-orders" class="section-content hidden">
+                <h2 class="text-2xl font-bold text-white mb-6">Customer Orders</h2>
+                <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-x-auto">
+                    <table class="w-full text-left whitespace-nowrap">
+                        <thead>
+                            <tr class="bg-gray-900 border-b border-gray-700">
+                                <th class="p-4 text-gray-300">ID / Date</th>
+                                <th class="p-4 text-gray-300">Customer</th>
+                                <th class="p-4 text-gray-300">Amount</th>
+                                <th class="p-4 text-gray-300">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MENU MODAL -->
+    <div id="menu-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-50 px-4">
+        <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md border border-gray-700">
+            <h3 id="modal-title" class="text-xl font-bold text-white mb-4">Add Menu Item</h3>
+            <input type="hidden" id="item-id">
+            
+            <div class="space-y-3">
+                <input type="text" id="item-name" placeholder="Item Name" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 outline-none">
+                <select id="item-category" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 outline-none">
+                    <option value="Starters">Starters</option>
+                    <option value="Main Course">Main Course</option>
+                    <option value="Drinks">Drinks</option>
+                    <option value="Desserts">Desserts</option>
+                </select>
+                <input type="number" id="item-price" placeholder="Price (₹)" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 outline-none">
+                
+                <!-- Image Upload (Supabase Fallback logic) -->
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Image URL (Or setup Supabase in JS for file upload)</label>
+                    <input type="text" id="item-image" placeholder="https://link.to/image.jpg" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 outline-none">
+                </div>
+                
+                <textarea id="item-desc" placeholder="Description" rows="2" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 outline-none"></textarea>
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-6">
+                <button onclick="closeMenuModal()" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500">Cancel</button>
+                <button onclick="saveMenuItem()" class="px-4 py-2 accent-bg text-white rounded hover:bg-orange-700">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Supabase Initialization (Add your keys here when ready)
+        // const supabaseUrl = 'YOUR_SUPABASE_URL';
+        // const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+        // const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        function login() {
+            if(document.getElementById('username').value === 'admin' && document.getElementById('password').value === 'admin123') {
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('admin-layout').classList.remove('hidden');
+                loadData();
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+            
+            // Highlight Desktop tabs
+            document.querySelectorAll('.w-64 nav a').forEach(el => {
+                el.classList.remove('bg-gray-700', 'text-white');
+                el.classList.add('text-gray-400');
+            });
+            const active = document.getElementById(`tab-${tabId}`);
+            if(active) { active.classList.add('bg-gray-700', 'text-white'); active.classList.remove('text-gray-400'); }
+            
+            loadData();
+        }
+
+        function loadData() {
+            const menu = JSON.parse(localStorage.getItem('loknath_menu')) || [];
+            const orders = JSON.parse(localStorage.getItem('loknath_orders')) || [];
+            
+            document.getElementById('stat-menu').innerText = menu.length;
+            document.getElementById('stat-orders').innerText = orders.length;
+            document.getElementById('stat-pending').innerText = orders.filter(o => o.status === 'Pending' || o.status === 'Preparing').length;
+
+            renderMenu(menu);
+            renderOrders(orders);
+        }
+
+        function renderMenu(menu) {
+            const tbody = document.getElementById('menu-table-body');
+            tbody.innerHTML = '';
+            menu.forEach(item => {
+                tbody.innerHTML += `
+                    <tr class="border-b border-gray-700">
+                        <td class="p-4 text-white font-semibold">${item.name}</td>
+                        <td class="p-4 text-gray-400">${item.category}</td>
+                        <td class="p-4 text-orange-400 font-bold">₹${item.price}</td>
+                        <td class="p-4 text-right space-x-3">
+                            <button onclick="editMenuItem(${item.id})" class="text-blue-400"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteMenuItem(${item.id})" class="text-red-500"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function openMenuModal() {
+            document.getElementById('item-id').value = "";
+            document.getElementById('item-name').value = "";
+            document.getElementById('item-price').value = "";
+            document.getElementById('item-desc').value = "";
+            document.getElementById('item-image').value = "";
+            document.getElementById('menu-modal').classList.remove('hidden');
+        }
+
+        function closeMenuModal() { document.getElementById('menu-modal').classList.add('hidden'); }
+
+        function saveMenuItem() {
+            let menu = JSON.parse(localStorage.getItem('loknath_menu')) || [];
+            const id = document.getElementById('item-id').value;
+            
+            const newItem = {
+                id: id ? parseInt(id) : Date.now(),
+                name: document.getElementById('item-name').value,
+                category: document.getElementById('item-category').value,
+                price: parseInt(document.getElementById('item-price').value),
+                image: document.getElementById('item-image').value || "https://via.placeholder.com/300",
+                desc: document.getElementById('item-desc').value
+            };
+
+            if (id) {
+                const index = menu.findIndex(i => i.id === parseInt(id));
+                if(index > -1) menu[index] = newItem;
+            } else {
+                menu.push(newItem);
+            }
+
+            localStorage.setItem('loknath_menu', JSON.stringify(menu));
+            closeMenuModal();
+            loadData();
+        }
+
+        function editMenuItem(id) {
+            const menu = JSON.parse(localStorage.getItem('loknath_menu')) || [];
+            const item = menu.find(i => i.id === id);
+            if(item) {
+                document.getElementById('item-id').value = item.id;
+                document.getElementById('item-name').value = item.name;
+                document.getElementById('item-category').value = item.category;
+                document.getElementById('item-price').value = item.price;
+                document.getElementById('item-image').value = item.image;
+                document.getElementById('item-desc').value = item.desc;
+                document.getElementById('menu-modal').classList.remove('hidden');
+            }
+        }
+
+        function deleteMenuItem(id) {
+            if(confirm("Delete this item?")) {
+                let menu = JSON.parse(localStorage.getItem('loknath_menu')) || [];
+                menu = menu.filter(i => i.id !== id);
+                localStorage.setItem('loknath_menu', JSON.stringify(menu));
+                loadData();
+            }
+        }
+
+        function renderOrders(orders) {
+            const tbody = document.getElementById('orders-table-body');
+            tbody.innerHTML = '';
+            
+            const colors = { 'Pending': 'text-red-400', 'Preparing': 'text-yellow-400', 'Delivered': 'text-green-400' };
+
+            orders.reverse().forEach(order => {
+                tbody.innerHTML += `
+                    <tr class="border-b border-gray-700">
+                        <td class="p-4">
+                            <div class="text-white font-mono text-sm">${order.id}</div>
+                            <div class="text-gray-500 text-xs">${order.date || 'Just now'}</div>
+                        </td>
+                        <td class="p-4">
+                            <div class="text-white font-semibold">${order.name}</div>
+                            <div class="text-gray-400 text-xs">${order.phone}</div>
+                        </td>
+                        <td class="p-4 text-orange-400 font-bold">₹${order.total}</td>
+                        <td class="p-4">
+                            <select onchange="updateOrderStatus('${order.id}', this.value)" class="bg-gray-700 border border-gray-600 rounded p-1 ${colors[order.status] || 'text-white'} text-sm outline-none">
+                                <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="Preparing" ${order.status === 'Preparing' ? 'selected' : ''}>Preparing</option>
+                                <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            </select>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateOrderStatus(id, status) {
+            let orders = JSON.parse(localStorage.getItem('loknath_orders')) || [];
+            const idx = orders.findIndex(o => o.id === id);
+            if(idx > -1) {
+                orders[idx].status = status;
+                localStorage.setItem('loknath_orders', JSON.stringify(orders));
+                loadData();
+            }
+        }
+    </script>
+</body>
+</html>
