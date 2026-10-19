@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loknath Restaurant & Hotel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #111827; color: #f3f4f6; }
+        .accent-bg { background-color: #f97316; }
+        .accent-text { color: #f97316; }
+        
+        /* Smooth Cart Slide */
+        #cart-drawer { transition: transform 0.3s ease-in-out; }
+        .translate-x-full { transform: translateX(100%); }
+        
+        /* Modals */
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.7); }
+        
+        /* Hide scrollbar for category buttons */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="font-sans antialiased relative">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-900 border-b border-gray-800 fixed w-full top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold accent-text"><i class="fas fa-utensils mr-2"></i>Loknath Restaurant</h1>
+            <div class="flex items-center space-x-6">
+                <a href="#home" class="hidden md:block hover:text-orange-500 transition">Home</a>
+                <a href="#menu-section" class="hidden md:block hover:text-orange-500 transition">Menu</a>
+                <!-- Cart Icon -->
+                <button onclick="toggleCart()" class="relative text-xl hover:text-orange-500 transition">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-24 pb-12 text-center px-4">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Delicious Food, <span class="accent-text">Delivered Hot</span></h2>
+        <p class="text-gray-400 max-w-2xl mx-auto mb-8">Experience the best taste in town with Loknath Restaurant & Hotel. Fresh ingredients, masterful cooking.</p>
+        <a href="#menu-section" class="inline-block px-8 py-3 accent-bg text-white font-bold rounded-full hover:bg-orange-700 transition">Order Now</a>
+    </section>
+
+    <!-- Search & Filter Section -->
+    <section id="menu-section" class="max-w-6xl mx-auto px-4 mb-6 pt-8">
+        <div class="relative mb-6">
+            <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+            <input type="text" id="search-input" onkeyup="filterMenu()" placeholder="Search for dishes..." class="w-full pl-12 pr-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-orange-500 transition">
+        </div>
+        
+        <div class="flex overflow-x-auto space-x-3 pb-2 scrollbar-hide" id="category-filters">
+            <button onclick="filterCategory('All')" class="filter-btn active-filter px-6 py-2 rounded-full bg-orange-600 text-white whitespace-nowrap">All</button>
+            <button onclick="filterCategory('Starters')" class="filter-btn px-6 py-2 rounded-full bg-gray-800 text-gray-300 hover:bg-gray-700 whitespace-nowrap">Starters</button>
+            <button onclick="filterCategory('Main Course')" class="filter-btn px-6 py-2 rounded-full bg-gray-800 text-gray-300 hover:bg-gray-700 whitespace-nowrap">Main Course</button>
+            <button onclick="filterCategory('Drinks')" class="filter-btn px-6 py-2 rounded-full bg-gray-800 text-gray-300 hover:bg-gray-700 whitespace-nowrap">Drinks</button>
+            <button onclick="filterCategory('Desserts')" class="filter-btn px-6 py-2 rounded-full bg-gray-800 text-gray-300 hover:bg-gray-700 whitespace-nowrap">Desserts</button>
+        </div>
+    </section>
+
+    <!-- Menu Grid -->
+    <section class="max-w-6xl mx-auto px-4 pb-20">
+        <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Menu items JS se aayenge -->
+        </div>
+    </section>
+
+    <!-- Slide-out Cart Drawer -->
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full md:w-96 bg-gray-900 border-l border-gray-800 shadow-2xl z-50 translate-x-full flex flex-col">
+        <div class="p-4 border-b border-gray-800 flex justify-between items-center">
+            <h2 class="text-xl font-bold accent-text"><i class="fas fa-shopping-cart mr-2"></i>Your Cart</h2>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-white text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <!-- Cart Items -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-4">
+            <!-- Items JS se aayenge -->
+        </div>
+        
+        <!-- Cart Footer -->
+        <div class="p-4 border-t border-gray-800 bg-gray-900">
+            <div class="flex justify-between items-center mb-4 text-lg font-bold">
+                <span>Total:</span>
+                <span class="accent-text" id="cart-total">₹0</span>
+            </div>
+            <button onclick="openCheckout()" id="checkout-btn" class="w-full py-3 accent-bg text-white font-bold rounded-lg hover:bg-orange-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-50 px-4">
+        <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md border border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold accent-text">Checkout</h3>
+                <button onclick="closeCheckout()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="processOrder(event)" class="space-y-4">
+                <div>
+                    <label class="block text-gray-400 mb-1 text-sm">Full Name</label>
+                    <input type="text" id="cust-name" required class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-orange-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1 text-sm">Phone Number</label>
+                    <input type="tel" id="cust-phone" required class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-orange-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1 text-sm">Delivery Address</label>
+                    <textarea id="cust-address" required rows="2" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-orange-500 outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1 text-sm">Payment Method</label>
+                    <select id="cust-payment" class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 outline-none">
+                        <option value="Cash on Delivery">Cash on Delivery</option>
+                        <option value="Online Payment">Online Payment (UPI/Card)</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3 mt-4 accent-bg text-white font-bold rounded-lg hover:bg-orange-700 transition">Place Order (₹<span id="checkout-total-display">0</span>)</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Thank You Modal -->
+    <div id="thankyou-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-50 px-4">
+        <div class="bg-gray-800 p-8 rounded-lg w-full max-w-sm text-center border border-gray-700">
+            <i class="fas fa-check-circle text-5xl text-green-500 mb-4"></i>
+            <h3 class="text-2xl font-bold text-white mb-2">Order Placed!</h3>
+            <p class="text-gray-400 mb-6">Thank you for ordering from Loknath Restaurant. Your food will arrive soon.</p>
+            <button onclick="closeThankYou()" class="w-full py-2 accent-bg text-white font-bold rounded-lg hover:bg-orange-700 transition">Back to Home</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let cart = JSON.parse(localStorage.getItem('loknath_cart')) || [];
+        let currentCategory = 'All';
+        
+        // Initialize Default Menu if LocalStorage is empty
+        function initMenu() {
+            if(!localStorage.getItem('loknath_menu')) {
+                const defaultMenu = [
+                    { id: 1, name: "Paneer Tikka", category: "Starters", price: 250, image: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=300", desc: "Spicy grilled paneer cubes" },
+                    { id: 2, name: "Butter Chicken", category: "Main Course", price: 350, image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=300", desc: "Creamy rich chicken curry" },
+                    { id: 3, name: "Virgin Mojito", category: "Drinks", price: 120, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300", desc: "Refreshing mint and lime drink" }
+                ];
+                localStorage.setItem('loknath_menu', JSON.stringify(defaultMenu));
+            }
+        }
+
+        // Render Menu Items
+        function renderMenuGrid(items) {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+            
+            if(items.length === 0) {
+                container.innerHTML = '<p class="text-gray-400 col-span-full text-center py-8">No items found.</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                container.innerHTML += `
+                    <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 transition transform hover:-translate-y-1">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-white">${item.name}</h3>
+                                <span class="accent-text font-bold text-lg">₹${item.price}</span>
+                            </div>
+                            <p class="text-gray-400 text-sm mb-4 h-10 overflow-hidden">${item.desc}</p>
+                            <button onclick="addToCart(${item.id})" class="w-full py-2 bg-gray-700 hover:bg-orange-600 text-white font-semibold rounded-lg transition duration-300">
+                                <i class="fas fa-plus mr-2"></i>Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Search & Filter
+        function filterCategory(category) {
+            currentCategory = category;
+            
+            // UI Update
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-orange-600', 'text-white');
+                btn.classList.add('bg-gray-800', 'text-gray-300');
+            });
+            event.target.classList.add('bg-orange-600', 'text-white');
+            event.target.classList.remove('bg-gray-800', 'text-gray-300');
+
+            filterMenu();
+        }
+
+        function filterMenu() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const allMenu = JSON.parse(localStorage.getItem('loknath_menu')) || [];
+            
+            const filtered = allMenu.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+                const matchesCat = currentCategory === 'All' || item.category === currentCategory;
+                return matchesSearch && matchesCat;
+            });
+            renderMenuGrid(filtered);
+        }
+
+        // Cart Functions
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('translate-x-full');
+            updateCartUI();
+        }
+
+        function addToCart(id) {
+            const allMenu = JSON.parse(localStorage.getItem('loknath_menu')) || [];
+            const item = allMenu.find(i => i.id === id);
+            
+            const existing = cart.find(c => c.id === id);
+            if(existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+            saveCart();
+            updateCartUI();
+            
+            // Small toast effect (Optional)
+            alert(`${item.name} added to cart!`);
+        }
+
+        function changeQty(id, amount) {
+            const item = cart.find(c => c.id === id);
+            if(item) {
+                item.qty += amount;
+                if(item.qty <= 0) {
+                    cart = cart.filter(c => c.id !== id);
+                }
+                saveCart();
+                updateCartUI();
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('loknath_cart', JSON.stringify(cart));
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const countBadge = document.getElementById('cart-count');
+            const totalEl = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            container.innerHTML = '';
+            let total = 0;
+            let totalItems = 0;
+
+            if(cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center mt-10">Your cart is empty.</p>';
+                checkoutBtn.disabled = true;
+            } else {
+                checkoutBtn.disabled = false;
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.qty;
+                    total += itemTotal;
+                    totalItems += item.qty;
+                    
+                    container.innerHTML += `
+                        <div class="flex items-center justify-between bg-gray-800 p-3 rounded-lg border border-gray-700">
+                            <div class="flex-1">
+                                <h4 class="text-white font-semibold text-sm">${item.name}</h4>
+                                <div class="text-orange-400 font-bold text-sm">₹${item.price}</div>
+                            </div>
+                            <div class="flex items-center space-x-3 bg-gray-900 rounded p-1">
+                                <button onclick="changeQty(${item.id}, -1)" class="text-gray-400 hover:text-white px-2">-</button>
+                                <span class="text-white font-bold w-4 text-center">${item.qty}</span>
+                                <button onclick="changeQty(${item.id}, 1)" class="text-gray-400 hover:text-white px-2">+</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            totalEl.innerText = `₹${total}`;
+            document.getElementById('checkout-total-display').innerText = total;
+            
+            if(totalItems > 0) {
+                countBadge.innerText = totalItems;
+                countBadge.classList.remove('hidden');
+            } else {
+                countBadge.classList.add('hidden');
+            }
+        }
+
+        // Checkout & Orders
+        function openCheckout() {
+            if(cart.length === 0) return;
+            toggleCart(); // Close drawer
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function processOrder(e) {
+            e.preventDefault();
+            
+            // Calculate Total
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            // Create Order Object for Admin Panel
+            const orderId = "ORD-" + Math.floor(1000 + Math.random() * 9000);
+            const newOrder = {
+                id: orderId,
+                name: document.getElementById('cust-name').value,
+                phone: document.getElementById('cust-phone').value,
+                address: document.getElementById('cust-address').value,
+                payment: document.getElementById('cust-payment').value,
+                total: totalAmount,
+                status: "Pending",
+                date: new Date().toLocaleString()
+            };
+
+            // Save to Orders LocalStorage
+            let savedOrders = JSON.parse(localStorage.getItem('loknath_orders')) || [];
+            savedOrders.push(newOrder);
+            localStorage.setItem('loknath_orders', JSON.stringify(savedOrders));
+
+            // Clear Cart
+            cart = [];
+            saveCart();
+            updateCartUI();
+
+            // Show Thank You
+            closeCheckout();
+            document.getElementById('thankyou-modal').classList.remove('hidden');
+            e.target.reset(); // Form clear
+        }
+
+        function closeThankYou() {
+            document.getElementById('thankyou-modal').classList.add('hidden');
+        }
+
+        // On Page Load
+        window.onload = () => {
+            initMenu();
+            filterMenu(); // Render default all
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
