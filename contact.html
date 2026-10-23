@@ -1,1 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact (Demo) | Oriel</title>
+  <meta name="description" content="Contact page for Oriel, a fictional restaurant portfolio project. Placeholder details and a demo message form: no message is sent.">
+  <meta name="theme-color" content="#F4EFE6">
 
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Oriel">
+  <meta property="og:title" content="Contact (Demo) | Oriel">
+  <meta property="og:description" content="Contact form demo for a fictional restaurant portfolio project.">
+  <meta property="og:image" content="assets/img/og/oriel-og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header" data-site-header>
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Oriel, home">
+        <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+          <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+          <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+          <circle class="logo__dot" cx="16" cy="20" r="3"/>
+        </svg>
+        <span class="logo__word">Oriel</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary" data-site-nav>
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="index.html">Home</a></li>
+          <li><a class="site-nav__link" href="menu.html">Menu</a></li>
+          <li><a class="site-nav__link" href="about.html">About</a></li>
+          <li><a class="site-nav__link" href="contact.html">Contact</a></li>
+        </ul>
+        <a class="btn btn--primary site-nav__cta" href="reservations.html">Reserve a table</a>
+      </nav>
+
+      <div class="site-header__actions">
+        <a class="btn btn--primary btn--sm site-header__cta" href="reservations.html">Reserve</a>
+
+        <a class="icon-btn cart-link" href="cart.html" aria-label="Cart, empty" data-cart-link>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 8h14l-1 12H6L5 8Z"/>
+            <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+          </svg>
+          <span class="cart-link__count" data-cart-count hidden>0</span>
+        </a>
+
+        <button class="icon-btn nav-toggle" type="button"
+                aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span class="visually-hidden">Menu</span>
+          <span class="nav-toggle__bars" aria-hidden="true">
+            <span class="nav-toggle__bar"></span>
+            <span class="nav-toggle__bar"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="container page-head__inner">
+        <p class="eyebrow eyebrow--accent">Contact</p>
+        <h1 class="page-head__title" id="page-title">Get in touch.</h1>
+        <p class="lead">Questions about the menu, private dining or press? Try the message form below.</p>
+        <p class="notice">
+          <span class="notice__title">Demo</span>
+          <span>Oriel is fictional. The details on this page are placeholders, and the form does not send a message to anyone.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-label="Contact details and message form">
+      <div class="container form-layout form-layout--flip">
+
+        <aside class="form-aside" aria-label="Contact details (placeholders)">
+          <div class="info-block">
+            <h2 class="info-heading">Find us</h2>
+            <address class="info-address">
+              214 Harbor Street<br>
+              Portland, Oregon 97204
+            </address>
+            <div class="map-placeholder">
+              <svg viewBox="0 0 640 400" role="img" aria-labelledby="map-title">
+                <title id="map-title">Illustrative map placeholder. No live map is shown.</title>
+                <rect width="640" height="400" class="map-bg"/>
+                <path class="map-river" d="M0 300 C140 250 240 340 380 290 S560 230 640 260"/>
+                <g class="map-streets">
+                  <path d="M0 80h640M0 170h640M0 250h640M0 340h640"/>
+                  <path d="M120 0v400M260 0v400M400 0v400M520 0v400"/>
+                </g>
+                <circle class="map-pin-halo" cx="400" cy="170" r="22"/>
+                <circle class="map-pin" cx="400" cy="170" r="9"/>
+              </svg>
+              <p class="map-placeholder__caption">Illustrative placeholder, not a real map. The address is fictional.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <h2 class="info-heading">Placeholder contact details</h2>
+            <ul class="info-list">
+              <li><span class="text-muted">Phone:</span> (503) 555-0142 <span class="text-muted">(fictional number)</span></li>
+              <li><span class="text-muted">Email:</span> hello@oriel.example <span class="text-muted">(placeholder, not a real inbox)</span></li>
+            </ul>
+          </div>
+
+          <div class="info-block">
+            <h2 class="info-heading">Opening hours</h2>
+            <dl class="hours">
+              <div class="hours__row"><dt>Monday</dt><dd>Closed</dd></div>
+              <div class="hours__row"><dt>Tuesday–Thursday</dt><dd>5–10 pm</dd></div>
+              <div class="hours__row"><dt>Friday–Saturday</dt><dd>5–11 pm</dd></div>
+              <div class="hours__row"><dt>Sunday</dt><dd>4–9 pm</dd></div>
+            </dl>
+          </div>
+        </aside>
+
+        <div class="form-panel">
+          <noscript>
+            <p class="notice notice--error">The contact form needs JavaScript. Please enable it to try the demo.</p>
+          </noscript>
+
+          <form id="contact-form" data-demo-form="contact" novalidate hidden
+                aria-label="Message form (demo)">
+            <p class="form-intro">Fields marked <span aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required.</p>
+
+            <div class="form-grid">
+              <div class="field" data-field>
+                <input class="field__control" id="contact-name" name="name" type="text" placeholder=" "
+                       autocomplete="name" maxlength="80" required aria-describedby="contact-name-error">
+                <label class="field__label" for="contact-name">Full name <span aria-hidden="true">*</span></label>
+                <p class="field__error" id="contact-name-error"></p>
+              </div>
+
+              <div class="field" data-field>
+                <input class="field__control" id="contact-email" name="email" type="email" placeholder=" "
+                       autocomplete="email" maxlength="254" required aria-describedby="contact-email-error">
+                <label class="field__label" for="contact-email">Email <span aria-hidden="true">*</span></label>
+                <p class="field__error" id="contact-email-error"></p>
+              </div>
+
+              <div class="field field--select field--full" data-field>
+                <select class="field__control" id="contact-topic" name="topic" required
+                        aria-describedby="contact-topic-error">
+                  <option value="">Select a topic</option>
+                  <option value="general">General question</option>
+                  <option value="large-party">Party of seven or more</option>
+                  <option value="private-dining">Private dining</option>
+                  <option value="press">Press</option>
+                  <option value="feedback">Feedback</option>
+                  <option value="other">Something else</option>
+                </select>
+                <label class="field__label" for="contact-topic">Topic <span aria-hidden="true">*</span></label>
+                <p class="field__error" id="contact-topic-error"></p>
+              </div>
+
+              <div class="field field--full" data-field>
+                <textarea class="field__control" id="contact-message" name="message" placeholder=" " rows="6"
+                          maxlength="1000" required
+                          aria-describedby="contact-message-hint contact-message-error"></textarea>
+                <label class="field__label" for="contact-message">Message <span aria-hidden="true">*</span></label>
+                <p class="field__hint" id="contact-message-hint"><span data-char-count>0</span> / 1000 characters (minimum 10)</p>
+                <p class="field__error" id="contact-message-error"></p>
+              </div>
+
+              <div class="field--full check-field" data-field>
+                <label class="check">
+                  <input type="checkbox" name="consent" value="yes" required aria-describedby="contact-consent-error">
+                  <span>I understand this is a demo and that my message will not be sent. <span aria-hidden="true">*</span></span>
+                </label>
+                <p class="field__error" id="contact-consent-error"></p>
+              </div>
+            </div>
+
+            <div class="form-status" data-form-status role="alert"></div>
+
+            <div class="form-actions">
+              <button class="btn btn--primary" type="submit">Send message (demo)</button>
+              <p class="text-muted"><span class="badge">Demo</span> Nothing you enter is sent or saved.</p>
+            </div>
+          </form>
+
+          <div class="form-success" data-form-success hidden>
+            <p class="badge badge--accent">Demo only</p>
+            <h2 class="form-success__title" tabindex="-1" data-form-success-title>Demo complete. No message was sent.</h2>
+            <p>This is a portfolio demo for a fictional restaurant. Your message was not sent to anyone, no reply is coming, and the details you entered were not stored or transmitted anywhere.</p>
+            <dl class="summary-list" data-form-summary aria-label="What you entered (demo)"></dl>
+            <div class="cluster">
+              <button class="btn btn--secondary" type="button" data-form-reset>Try the form again</button>
+              <a class="link link-arrow" href="reservations.html">Try the reservation demo</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <a class="logo logo--lg" href="index.html" aria-label="Oriel, home">
+            <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+              <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+              <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+              <circle class="logo__dot" cx="16" cy="20" r="3"/>
+            </svg>
+            <span class="logo__word">Oriel</span>
+          </a>
+          <p class="site-footer__blurb">A seasonal kitchen cooking over open wood fire.</p>
+        </div>
+
+        <div>
+          <h2 class="site-footer__heading">Visit</h2>
+          <address>
+            214 Harbor Street<br>
+            Portland, Oregon 97204<br>
+            (503) 555-0142<br>
+            <span class="text-muted">Fictional address and number</span>
+          </address>
+        </div>
+
+        <div>
+          <h2 class="site-footer__heading">Hours</h2>
+          <p>
+            Tue–Thu · 5–10 pm<br>
+            Fri–Sat · 5–11 pm<br>
+            Sunday · 4–9 pm<br>
+            Monday · Closed
+          </p>
+        </div>
+
+        <nav aria-label="Footer">
+          <h2 class="site-footer__heading">Explore</h2>
+          <ul class="site-footer__list">
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="about.html">Our story</a></li>
+            <li><a href="reservations.html">Reservations</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p>© <span data-year>2026</span> Oriel. All rights reserved.</p>
+        <p><span class="badge">Demo</span>
+           Fictional restaurant. Portfolio project: no real bookings, orders or payments.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/forms.js"></script>
+</body>
+  </html>
