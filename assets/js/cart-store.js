@@ -1,20 +1,23 @@
-
 /**
  * Oriel — cart-store.js
  * localStorage-backed cart (DEMO ONLY: no real orders or payments).
  *
  * - Money is stored as integer cents to avoid floating-point errors.
+ * - Tax is computed with integer basis points, then rounded once.
  * - Each line keeps a snapshot of name/price/image taken at add-to-cart time.
+ * - Malformed, tampered or duplicate stored lines are dropped or merged.
  * - Falls back to in-memory storage if localStorage is blocked.
  * - Every change dispatches a "cart:change" event on window, so the header
- *   badge and the cart page stay in sync (including across browser tabs).
+ *   badge, menu and cart page stay in sync (including across browser tabs).
  */
 
 const STORAGE_KEY = "oriel.cart.v1";
 
 export const CART_EVENT = "cart:change";
 export const MAX_QTY = 20;
-export const TAX_RATE = 0.0875; // Demo estimate only.
+export const MAX_LINES = 100;
+export const TAX_BPS = 875; // 8.75%, in basis points. Demo estimate only.
+export const TAX_RATE = TAX_BPS / 10000;
 
 let memoryCart = [];
 let storageAvailable = detectStorage();
@@ -57,6 +60,17 @@ function sanitizeItem(raw) {
   };
 }
 
+/** Merge lines that share an id (possible in tampered storage). */
+function mergeDuplicates(items) {
+  const byId = new Map();
+  for (const item of items) {
+    const existing = byId.get(item.id);
+    if (existing) existing.qty = clampQty(existing.qty + item.qty);
+    else byId.set(item.id, { ...item });
+  }
+  return [...byId.values()];
+}
+
 function readCart() {
   if (!storageAvailable) return memoryCart.map((item) => ({ ...item }));
 
@@ -65,7 +79,7 @@ function readCart() {
     if (!stored) return [];
     const parsed = JSON.parse(stored);
     if (!Array.isArray(parsed)) throw new Error("Cart is not an array");
-    return parsed.map(sanitizeItem).filter(Boolean);
+    return mergeDuplicates(parsed.map(sanitizeItem).filter(Boolean)).slice(0, MAX_LINES);
   } catch {
     // Corrupt or unreadable data: reset instead of breaking the site.
     try {
@@ -95,7 +109,8 @@ function computeTotals(items) {
     (sum, item) => sum + item.priceCents * item.qty,
     0
   );
-  const taxCents = Math.round(subtotalCents * TAX_RATE);
+  // Integer math: subtotal * bps is exact, so rounding is deterministic.
+  const taxCents = Math.round((subtotalCents * TAX_BPS) / 10000);
 
   return {
     count,
@@ -156,6 +171,7 @@ export function addItem(product, quantity = 1) {
     existing.priceCents = candidate.priceCents;
     existing.image = candidate.image || existing.image;
   } else {
+    if (items.length >= MAX_LINES) return null;
     items.push(candidate);
   }
 
@@ -210,7 +226,7 @@ window.addEventListener("storage", (event) => {
   if (event.key === STORAGE_KEY || event.key === null) emit();
 });
 
-// NEW: a page restored from the back/forward cache is a frozen snapshot, so
+// A page restored from the back/forward cache is a frozen snapshot, so
 // re-read the cart and notify the badge, menu and cart page.
 window.addEventListener("pageshow", (event) => {
   if (event.persisted) emit();
