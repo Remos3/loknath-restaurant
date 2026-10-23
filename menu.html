@@ -1,1 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menu | Oriel</title>
+  <meta name="description" content="Browse the seasonal Oriel menu: wood-fired starters, mains, sides, desserts and drinks. Search by ingredient and filter by dietary needs. Fictional demo restaurant.">
+  <meta name="theme-color" content="#F4EFE6">
 
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Oriel">
+  <meta property="og:title" content="Menu | Oriel">
+  <meta property="og:description" content="The seasonal wood-fire menu at Oriel. Fictional restaurant for a portfolio demo.">
+  <meta property="og:image" content="assets/img/og/oriel-og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header" data-site-header>
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Oriel, home">
+        <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+          <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+          <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+          <circle class="logo__dot" cx="16" cy="20" r="3"/>
+        </svg>
+        <span class="logo__word">Oriel</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary" data-site-nav>
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="index.html">Home</a></li>
+          <li><a class="site-nav__link" href="menu.html">Menu</a></li>
+          <li><a class="site-nav__link" href="about.html">About</a></li>
+          <li><a class="site-nav__link" href="contact.html">Contact</a></li>
+        </ul>
+        <a class="btn btn--primary site-nav__cta" href="reservations.html">Reserve a table</a>
+      </nav>
+
+      <div class="site-header__actions">
+        <a class="btn btn--primary btn--sm site-header__cta" href="reservations.html">Reserve</a>
+
+        <a class="icon-btn cart-link" href="cart.html" aria-label="Cart, empty" data-cart-link>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 8h14l-1 12H6L5 8Z"/>
+            <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+          </svg>
+          <span class="cart-link__count" data-cart-count hidden>0</span>
+        </a>
+
+        <button class="icon-btn nav-toggle" type="button"
+                aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span class="visually-hidden">Menu</span>
+          <span class="nav-toggle__bars" aria-hidden="true">
+            <span class="nav-toggle__bar"></span>
+            <span class="nav-toggle__bar"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="container page-head__inner">
+        <p class="eyebrow eyebrow--accent">Autumn menu</p>
+        <h1 class="page-head__title" id="page-title">Fire, season, restraint.</h1>
+        <p class="lead">Everything is cooked over oak and fruitwood, and the menu changes with the farms we buy from.</p>
+        <p class="notice">
+          <span class="notice__title">Demo</span>
+          <span>Fictional menu. Adding to the cart is simulated and no order is placed.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-label="Menu">
+      <div class="container">
+
+        <noscript>
+          <p class="notice notice--error">The interactive menu needs JavaScript. Please enable it to browse dishes.</p>
+        </noscript>
+
+        <form class="menu-tools" role="search" aria-label="Search and filter the menu"
+              data-menu-form data-menu-chrome novalidate hidden>
+          <div class="field">
+            <input class="field__control" id="menu-search" name="q" type="search"
+                   placeholder=" " autocomplete="off" spellcheck="false" enterkeyhint="search">
+            <label class="field__label" for="menu-search">Search dishes or ingredients</label>
+          </div>
+
+          <div class="menu-tools__filters">
+            <div class="menu-tools__group" role="group" aria-labelledby="filter-course">
+              <p class="menu-tools__label" id="filter-course">Course</p>
+              <div class="chip-row" data-category-chips></div>
+            </div>
+            <div class="menu-tools__group" role="group" aria-labelledby="filter-diet">
+              <p class="menu-tools__label" id="filter-diet">Dietary</p>
+              <div class="chip-row" data-diet-chips></div>
+            </div>
+          </div>
+        </form>
+
+        <div class="menu-meta" data-menu-chrome hidden>
+          <p class="menu-meta__count" role="status" data-menu-count></p>
+          <button class="text-btn" type="button" data-clear-filters hidden>Clear filters</button>
+        </div>
+
+        <p class="diet-legend" data-menu-chrome hidden>
+          <strong>V</strong> Vegetarian · <strong>VG</strong> Vegan · <strong>GF</strong> Gluten-free.
+          Please tell your server about any allergies. This is a fictional demo menu.
+        </p>
+
+        <div data-menu-results aria-busy="true">
+          <div class="menu-skeleton" data-menu-loading>
+            <p class="visually-hidden" role="status">Loading the menu…</p>
+            <div class="menu-skeleton__row" aria-hidden="true">
+              <span class="skeleton menu-skeleton__title"></span>
+              <span class="skeleton menu-skeleton__text"></span>
+            </div>
+            <div class="menu-skeleton__row" aria-hidden="true">
+              <span class="skeleton menu-skeleton__title"></span>
+              <span class="skeleton menu-skeleton__text"></span>
+            </div>
+            <div class="menu-skeleton__row" aria-hidden="true">
+              <span class="skeleton menu-skeleton__title"></span>
+              <span class="skeleton menu-skeleton__text"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <a class="logo logo--lg" href="index.html" aria-label="Oriel, home">
+            <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+              <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+              <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+              <circle class="logo__dot" cx="16" cy="20" r="3"/>
+            </svg>
+            <span class="logo__word">Oriel</span>
+          </a>
+          <p class="site-footer__blurb">A seasonal kitchen cooking over open wood fire.</p>
+        </div>
+
+        <div>
+          <h2 class="site-footer__heading">Visit</h2>
+          <address>
+            214 Harbor Street<br>
+            Portland, Oregon 97204<br>
+            <a class="link" href="tel:+15035550142">(503) 555-0142</a>
+          </address>
+        </div>
+
+        <div>
+          <h2 class="site-footer__heading">Hours</h2>
+          <p>
+            Tue–Thu · 5–10 pm<br>
+            Fri–Sat · 5–11 pm<br>
+            Sunday · 4–9 pm<br>
+            Monday · Closed
+          </p>
+        </div>
+
+        <nav aria-label="Footer">
+          <h2 class="site-footer__heading">Explore</h2>
+          <ul class="site-footer__list">
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="about.html">Our story</a></li>
+            <li><a href="reservations.html">Reservations</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p>© <span data-year>2026</span> Oriel. All rights reserved.</p>
+        <p><span class="badge">Demo</span>
+           Fictional restaurant. Portfolio project: no real bookings, orders or payments.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/menu.js"></script>
+</body>
+</html>
