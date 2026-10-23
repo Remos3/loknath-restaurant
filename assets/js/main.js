@@ -1,9 +1,8 @@
-
 /**
  * Oriel — main.js
  * Loaded on every page: <script type="module" src="assets/js/main.js"></script>
  * Handles the accessible mobile menu, header state, active link, cart badge,
- * footer year and scroll reveal.
+ * footer year, image fallbacks and scroll reveal.
  */
 
 import { getCount, subscribe } from "./cart-store.js";
@@ -105,29 +104,20 @@ function initNav() {
 }
 
 /* ---------- Active link ---------- */
+/**
+ * Compares full normalised paths, so it works at the domain root, under a
+ * GitHub Pages repo subpath (/repo/menu.html) and with clean URLs (/repo/menu).
+ * `link.pathname` resolves against <base href> when a page sets one.
+ */
 function markActiveLink() {
   const links = $$(".site-nav__link");
   if (!links.length) return;
 
-  const pathname = window.location.pathname;
-  const lastSegment = pathname.split("/").filter(Boolean).pop() || "";
-  const endsWithSlash = pathname.endsWith("/");
+  const normalize = (path) =>
+    path.replace(/index\.html$/, "").replace(/\.html$/, "").replace(/\/+$/, "");
 
-  const fileOf = (link) =>
-    new URL(link.getAttribute("href"), window.location.href).pathname
-      .split("/")
-      .filter(Boolean)
-      .pop() || "index.html";
-
-  let match = links.find((link) => {
-    const file = fileOf(link);
-    return file === lastSegment || file === `${lastSegment}.html`;
-  });
-
-  // Site root (e.g. /oriel/) -> Home.
-  if (!match && endsWithSlash) {
-    match = links.find((link) => fileOf(link) === "index.html");
-  }
+  const current = normalize(window.location.pathname);
+  const match = links.find((link) => normalize(link.pathname) === current);
 
   if (match) match.setAttribute("aria-current", "page");
 }
@@ -190,8 +180,46 @@ function initYear() {
   });
 }
 
+/* ---------- Image fallbacks ---------- */
+/**
+ * A missing image is hidden (the figure's background colour shows instead of a
+ * broken-image icon). The "load" listener undoes the flag if a lazy image that
+ * looked broken early turns out to load fine.
+ */
+function initImageFallbacks() {
+  document.addEventListener(
+    "error",
+    (event) => {
+      if (event.target instanceof HTMLImageElement) {
+        event.target.classList.add("is-broken");
+      }
+    },
+    true
+  );
+
+  document.addEventListener(
+    "load",
+    (event) => {
+      if (event.target instanceof HTMLImageElement) {
+        event.target.classList.remove("is-broken");
+      }
+    },
+    true
+  );
+
+  // Images that already failed before this module ran.
+  $$("img").forEach((img) => {
+    if (img.complete && img.naturalWidth === 0 && img.getAttribute("src")) {
+      img.classList.add("is-broken");
+    }
+  });
+}
+
 /* ---------- Boot ---------- */
-document.documentElement.classList.add("js");
+const root = document.documentElement;
+root.classList.add("js");
+// Cancels the CSS reveal failsafe in pages.css (content shows after 4s if this never runs).
+root.classList.add("js-ready");
 
 safely("toast region", ensureToastRegion);
 safely("navigation", initNav);
@@ -199,4 +227,5 @@ safely("active link", markActiveLink);
 safely("header state", initHeaderState);
 safely("cart badge", initCartBadge);
 safely("footer year", initYear);
+safely("image fallbacks", initImageFallbacks);
 safely("scroll reveal", () => revealOnScroll());
