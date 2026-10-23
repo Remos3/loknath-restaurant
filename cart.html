@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Cart | Oriel</title>
+  <meta name="description" content="Review the dishes in your Oriel cart. Demo only: no payment is taken and no order is placed.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#F4EFE6">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Oriel">
+  <meta property="og:title" content="Your Cart | Oriel">
+  <meta property="og:description" content="Cart demo for a fictional restaurant portfolio project.">
+  <meta property="og:image" content="assets/img/og/oriel-og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header" data-site-header>
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Oriel, home">
+        <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+          <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+          <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+          <circle class="logo__dot" cx="16" cy="20" r="3"/>
+        </svg>
+        <span class="logo__word">Oriel</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary" data-site-nav>
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="index.html">Home</a></li>
+          <li><a class="site-nav__link" href="menu.html">Menu</a></li>
+          <li><a class="site-nav__link" href="about.html">About</a></li>
+          <li><a class="site-nav__link" href="contact.html">Contact</a></li>
+        </ul>
+        <a class="btn btn--primary site-nav__cta" href="reservations.html">Reserve a table</a>
+      </nav>
+
+      <div class="site-header__actions">
+        <a class="btn btn--primary btn--sm site-header__cta" href="reservations.html">Reserve</a>
+
+        <a class="icon-btn cart-link" href="cart.html" aria-label="Cart, empty" data-cart-link>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 8h14l-1 12H6L5 8Z"/>
+            <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+          </svg>
+          <span class="cart-link__count" data-cart-count hidden>0</span>
+        </a>
+
+        <button class="icon-btn nav-toggle" type="button"
+                aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span class="visually-hidden">Menu</span>
+          <span class="nav-toggle__bars" aria-hidden="true">
+            <span class="nav-toggle__bar"></span>
+            <span class="nav-toggle__bar"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="container page-head__inner">
+        <p class="eyebrow eyebrow--accent">Your order</p>
+        <h1 class="page-head__title" id="page-title">Cart.</h1>
+        <p class="notice">
+          <span class="notice__title">Demo</span>
+          <span>Nothing here is a real order. There is no payment, and no order is sent to a kitchen.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-label="Cart contents">
+      <div class="container">
+
+        <noscript>
+          <p class="notice notice--error">The cart needs JavaScript. Please enable it to view your items.</p>
+        </noscript>
+
+        <p class="notice notice--error cart-warning" data-storage-warning hidden>
+          <span class="notice__title">Cart not saved.</span>
+          <span>Your browser is blocking storage, so this cart will be lost when you leave the page.</span>
+        </p>
+
+        <div class="cart-layout" data-cart-content hidden>
+          <div class="cart-main">
+            <div class="cart-head">
+              <p class="cart-head__count" data-cart-count-label></p>
+              <div class="cart-clear">
+                <button class="text-btn" type="button" data-action="clear-start">Clear cart</button>
+                <div class="cart-clear__confirm" data-clear-confirm hidden>
+                  <span>Remove every item?</span>
+                  <button class="btn btn--secondary btn--sm" type="button" data-action="clear-confirm">Yes, clear</button>
+                  <button class="btn btn--secondary btn--sm" type="button" data-action="clear-cancel">Keep items</button>
+                </div>
+              </div>
+            </div>
+
+            <ul class="cart-items" role="list" aria-label="Items in your cart" data-cart-items></ul>
+          </div>
+
+          <aside class="cart-summary" aria-labelledby="summary-title">
+            <h2 class="cart-summary__title" id="summary-title">Order summary</h2>
+
+            <dl class="summary-lines">
+              <div class="summary-line">
+                <dt>Subtotal</dt>
+                <dd data-summary-subtotal>$0.00</dd>
+              </div>
+              <div class="summary-line">
+                <dt data-summary-tax-label>Estimated tax</dt>
+                <dd data-summary-tax>$0.00</dd>
+              </div>
+              <div class="summary-line summary-line--total">
+                <dt>Total</dt>
+                <dd data-summary-total>$0.00</dd>
+              </div>
+            </dl>
+
+            <button class="btn btn--primary btn--block" type="button" data-checkout aria-describedby="checkout-note">Checkout (demo)</button>
+            <div class="cart-summary__status" role="status" data-checkout-status></div>
+
+            <p class="cart-summary__note" id="checkout-note">
+              <span class="badge">Demo</span>
+              Checkout is not connected to any payment or ordering system. No card details are collected and nothing is charged.
+            </p>
+
+            <a class="link link-arrow" href="menu.html">Continue browsing</a>
+          </aside>
+        </div>
+
+        <div class="empty-state" data-cart-empty hidden>
+          <h2 class="empty-state__title" tabindex="-1" data-cart-empty-title>Your cart is empty.</h2>
+          <p class="empty-state__text">Add a few dishes from the menu and they’ll wait for you here.</p>
+          <a class="btn btn--primary" href="menu.html">Browse the menu</a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <a class="logo logo--lg" href="index.html" aria-label="Oriel, home">
+            <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+              <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+              <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
+              <circle class="logo__dot" cx="16" cy="20" r="3"/>
+            </svg>
+            <span class="logo__word">Oriel</span>
+          </a>
+          <p class="site-footer__blurb">A seasonal kitchen cooking over open wood fire.</p>
+        </div>
+
+        <div>
+          <h2 class="site-footer__heading">Visit</h2>
+          <address>
+            214 Harbor Street<br>
+            Portland, Oregon 97204<br>
+            <a class="link" href="tel:+15035550142">(503) 555-0142</a>
+          </address>
+        </div>
+
+        <div>
+          <h2 class="site-footer__heading">Hours</h2>
+          <p>
+            Tue–Thu · 5–10 pm<br>
+            Fri–Sat · 5–11 pm<br>
+            Sunday · 4–9 pm<br>
+            Monday · Closed
+          </p>
+        </div>
+
+        <nav aria-label="Footer">
+          <h2 class="site-footer__heading">Explore</h2>
+          <ul class="site-footer__list">
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="about.html">Our story</a></li>
+            <li><a href="reservations.html">Reservations</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p>© <span data-year>2026</span> Oriel. All rights reserved.</p>
+        <p><span class="badge">Demo</span>
+           Fictional restaurant. Portfolio project: no real bookings, orders or payments.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/cart-page.js"></script>
+</body>
+</html>
