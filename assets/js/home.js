@@ -41,14 +41,32 @@ function initAddToCart() {
   });
 }
 
-/* ---------- Opening hours: highlight today ---------- */
+/* ---------- Opening hours: highlight today (Portland time) ---------- */
+
+/** Weekday number (0 = Sunday) in Portland, or null if Intl can't resolve the zone. */
+function portlandWeekday() {
+  try {
+    const name = new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      timeZone: "America/Los_Angeles",
+    }).format(new Date());
+    const index = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(name);
+    return index === -1 ? null : index;
+  } catch {
+    return null;
+  }
+}
+
 function initHours() {
   const list = $("[data-hours]");
   if (!list) return;
 
-  const today = String(new Date().getDay());
+  const portland = portlandWeekday();
+  const day = portland ?? new Date().getDay();
+  const zoneNote = portland === null ? "" : " (Portland time)";
+
   const row = $$("[data-days]", list).find((el) =>
-    el.dataset.days.split(" ").includes(today)
+    el.dataset.days.split(" ").includes(String(day))
   );
   if (!row) return;
 
@@ -60,8 +78,8 @@ function initHours() {
   if (status) {
     status.textContent =
       hours.toLowerCase() === "closed"
-        ? "We’re closed today. See you tomorrow."
-        : `Open today, ${hours} (Portland time).`;
+        ? `We’re closed today${zoneNote}. See you tomorrow.`
+        : `Open today, ${hours}${zoneNote}.`;
   }
 }
 
