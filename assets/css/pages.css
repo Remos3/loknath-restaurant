@@ -1,4 +1,949 @@
 /* ==========================================================================
+   Oriel — pages.css
+   Global overrides, then page-specific sections.
+   Homepage: hero, intro, dishes, menu list, testimonials, hours, CTA.
+   Shared inner pages: page header, text button.
+   Menu page: tools, groups, items, dietary tags, skeleton.
+   Cart page: lines, summary.
+   About page: pull quote, values, team, gallery.
+   Reservation & contact pages: form layout, success panel, aside, map.
+   ========================================================================== */
+
+/* ==========================================================================
+   Global overrides (loaded after base.css and components.css)
+   ========================================================================== */
+
+/* Missing image: hide it so the figure's background shows, not a broken icon. */
+img.is-broken {
+  visibility: hidden;
+}
+
+/* Failsafe: if main.js never runs, reveal hidden content after 4s.
+   main.js adds .js-ready on boot, which removes this animation. */
+@media (prefers-reduced-motion: no-preference) {
+  .js:not(.js-ready) [data-reveal] {
+    animation: reveal-failsafe 0.01s linear 4s forwards;
+  }
+
+  @keyframes reveal-failsafe {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Buttons never exceed their container. */
+.btn {
+  max-width: 100%;
+}
+
+/* Long form-button labels may wrap on very narrow phones. */
+.form-actions .btn {
+  white-space: normal;
+  line-height: 1.3;
+}
+
+/* Select chevron: anchor from the top, because the field's bottom edge moves
+   when a hint or error is shown beneath the control. */
+.field--select::after {
+  top: 2.6rem;
+  bottom: auto;
+}
+
+/* ---------- Shared section header ---------- */
+.section-head {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 40rem;
+  margin-bottom: var(--space-9);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: min(48rem, calc(100svh - var(--header-h)));
+  padding-block: var(--space-10) var(--space-9);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to top,
+    rgba(21, 18, 15, 0.88) 0%,
+    rgba(21, 18, 15, 0.45) 55%,
+    rgba(21, 18, 15, 0.35) 100%
+  );
+}
+
+.hero__content {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+}
+
+.hero__content h1 {
+  max-width: 12ch;
+}
+
+.hero__lead {
+  max-width: 34rem;
+  color: var(--color-bone);
+}
+
+.hero__actions {
+  margin-top: var(--space-3);
+}
+
+/* Note: no .btn--secondary override here. The hero is .theme-dark, so the
+   shared button tokens already give bone text, and hover inverts correctly. */
+
+@media (min-width: 900px) {
+  .hero {
+    padding-block: var(--space-12) var(--space-10);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__media img {
+    animation: hero-settle 2.4s var(--ease) both;
+  }
+
+  @keyframes hero-settle {
+    from { transform: scale(1.07); }
+    to   { transform: scale(1); }
+  }
+}
+
+/* ---------- Introduction ---------- */
+.intro {
+  align-items: center;
+  row-gap: var(--space-8);
+}
+
+.intro__figure {
+  aspect-ratio: 4 / 5;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.intro__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 900px) {
+  .intro__figure {
+    margin-top: var(--space-10);
+  }
+}
+
+/* ---------- Signature dishes ---------- */
+.dish-grid {
+  display: grid;
+  gap: var(--space-8) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .dish-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Editorial stagger */
+  .dish:nth-child(2) {
+    margin-top: var(--space-9);
+  }
+}
+
+.dish__link {
+  display: grid;
+  gap: var(--space-2);
+  color: inherit;
+  text-decoration: none;
+}
+
+.dish__media {
+  margin-bottom: var(--space-3);
+  aspect-ratio: 4 / 5;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.dish__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease);
+}
+
+.dish__link:hover .dish__media img {
+  transform: scale(1.04);
+}
+
+.dish__name {
+  font-size: var(--text-xl);
+}
+
+.dish__desc {
+  color: var(--text-muted);
+}
+
+.dish__more {
+  justify-self: start;
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dish__link:hover .dish__more {
+  background-size: 100% 2px;
+  color: var(--accent);
+}
+
+.dish__link:hover .dish__more::after {
+  transform: translateX(4px);
+}
+
+/* ---------- Featured menu (homepage) ---------- */
+.menu-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-strong);
+}
+
+.menu-row {
+  display: grid;
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.menu-row__name {
+  font-size: var(--text-xl);
+}
+
+.menu-row__desc {
+  margin-top: var(--space-1);
+  color: var(--text-muted);
+}
+
+.menu-row__buy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.menu-row__price {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-row [data-add-to-cart].is-added {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+@media (min-width: 640px) {
+  .menu-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-7);
+  }
+
+  .menu-row__buy {
+    gap: var(--space-5);
+  }
+
+  .menu-row [data-add-to-cart] {
+    min-width: 6rem;
+  }
+}
+
+.featured__actions {
+  margin-top: var(--space-8);
+  gap: var(--space-6);
+}
+
+/* ---------- Testimonials ---------- */
+.quote-grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.quote {
+  display: grid;
+  align-content: space-between;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.quote blockquote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 300;
+  line-height: 1.3;
+}
+
+.quote figcaption {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.quote-note {
+  margin-top: var(--space-8);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 900px) {
+  .quote-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+/* ---------- Hours ---------- */
+.hours-status {
+  margin-bottom: var(--space-4);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.hours-status:empty {
+  display: none;
+}
+
+.hours {
+  margin: 0;
+  border-top: 1px solid var(--border-strong);
+}
+
+.hours__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.hours__row dt {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.hours__row dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.hours__row.is-today {
+  color: var(--accent);
+}
+
+.hours__row.is-today dt::after {
+  content: "Today";
+  margin-left: var(--space-3);
+  padding: 0.15rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+/* ---------- Reservation CTA ---------- */
+.cta__actions {
+  justify-content: center;
+}
+
+.cta .lead {
+  margin-inline: auto;
+  max-width: 34rem;
+}
+
+/* ==========================================================================
+   Shared inner-page pieces
+   ========================================================================== */
+
+/* ---------- Inner page header ---------- */
+.page-head {
+  padding-block: clamp(3rem, 1rem + 6vw, 6rem) var(--space-7);
+}
+
+.page-head__inner {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.page-head__inner > * {
+  max-width: 44rem;
+}
+
+.page-head__title {
+  font-size: var(--text-3xl);
+}
+
+.page-head .notice {
+  margin-top: var(--space-2);
+}
+
+/* ---------- Text button (looks like a link, behaves like a button) ---------- */
+.text-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--duration) var(--ease);
+}
+
+.text-btn:hover {
+  color: var(--accent);
+}
+
+/* ---------- Quantity control: aria-disabled state ---------- */
+.qty__btn[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.qty__btn[aria-disabled="true"]:hover {
+  background: transparent;
+}
+
+/* ==========================================================================
+   Menu page
+   ========================================================================== */
+
+/* ---------- Search & filters ---------- */
+.menu-tools {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-5) var(--space-6);
+  border-block: 1px solid var(--border);
+}
+
+.menu-tools .field {
+  max-width: 36rem;
+}
+
+.menu-tools__filters {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.menu-tools__group {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.menu-tools__label {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+@media (min-width: 900px) {
+  .menu-tools__filters {
+    grid-template-columns: auto auto;
+    justify-content: start;
+    column-gap: var(--space-10);
+  }
+}
+
+.menu-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 44px;
+  margin-top: var(--space-4);
+}
+
+.menu-meta__count {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.diet-legend {
+  margin-bottom: var(--space-8);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.diet-legend strong {
+  color: var(--text);
+}
+
+/* ---------- Groups ---------- */
+.menu-group + .menu-group {
+  margin-top: var(--space-10);
+}
+
+.menu-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.menu-group__title {
+  font-size: var(--text-2xl);
+}
+
+.menu-group__head p {
+  font-size: var(--text-sm);
+}
+
+.menu-items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-strong);
+}
+
+/* ---------- Menu item ---------- */
+.menu-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "body"
+    "buy";
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--border);
+  transition: background-color 600ms var(--ease), box-shadow 600ms var(--ease);
+}
+
+.menu-item--media {
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  grid-template-areas:
+    "media body"
+    "buy buy";
+  column-gap: var(--space-4);
+}
+
+.menu-item:focus {
+  outline: none;
+}
+
+.menu-item.is-targeted {
+  background: var(--surface);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.menu-item__media {
+  grid-area: media;
+  align-self: start;
+  aspect-ratio: 4 / 5;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.menu-item__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-item__body {
+  grid-area: body;
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+}
+
+.menu-item__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.menu-item__name {
+  font-size: var(--text-xl);
+}
+
+.menu-item__desc {
+  max-width: 52ch;
+  color: var(--text-muted);
+}
+
+.menu-item__buy {
+  grid-area: buy;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.menu-item__price {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fixed width so swapping Add <-> quantity stepper doesn't shift the layout */
+.menu-item__action {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 8.5rem;
+}
+
+.menu-item__action .btn {
+  min-width: 6rem;
+}
+
+@media (min-width: 640px) {
+  .menu-item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "body buy";
+    align-items: center;
+    column-gap: var(--space-7);
+  }
+
+  .menu-item--media {
+    grid-template-columns: 7rem minmax(0, 1fr) auto;
+    grid-template-areas: "media body buy";
+  }
+
+  .menu-item__buy {
+    justify-content: flex-end;
+    gap: var(--space-6);
+  }
+}
+
+/* ---------- Dietary tags ---------- */
+.diet-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diet-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  padding: 0.125rem 0.4rem;
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
+/* ---------- Loading skeleton ---------- */
+.menu-skeleton {
+  display: none;
+}
+
+.js .menu-skeleton {
+  display: block;
+  border-top: 1px solid var(--border-strong);
+}
+
+.menu-skeleton__row {
+  display: grid;
+  gap: var(--space-3);
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.menu-skeleton__title {
+  width: min(16rem, 60%);
+  height: 1.5rem;
+}
+
+.menu-skeleton__text {
+  width: min(28rem, 90%);
+  height: 1rem;
+}
+
+/* ==========================================================================
+   Cart page
+   ========================================================================== */
+
+.cart-warning {
+  margin-bottom: var(--space-6);
+}
+
+.cart-layout {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+/* The cart column is the query container: line layout depends on the width it
+   actually gets (which shrinks beside the sidebar at 900–1250px), not on the
+   viewport width. */
+.cart-main {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+@media (min-width: 900px) {
+  .cart-layout {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    gap: var(--space-9);
+  }
+
+  .cart-summary {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-5));
+  }
+}
+
+@media (min-width: 1280px) {
+  .cart-layout {
+    grid-template-columns: minmax(0, 1fr) 26rem;
+  }
+}
+
+/* ---------- Cart header ---------- */
+.cart-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-5);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.cart-head__count {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.cart-clear__confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+}
+
+/* ---------- Cart lines ---------- */
+.cart-items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Default (narrow column): image on the left, details stacked on the right */
+.cart-line {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  grid-template-areas:
+    "media info"
+    "media controls"
+    "media remove";
+  gap: var(--space-2) var(--space-4);
+  align-items: start;
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-line__media {
+  grid-area: media;
+  aspect-ratio: 4 / 5;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.cart-line__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-line__info {
+  grid-area: info;
+  min-width: 0;
+}
+
+.cart-line__name {
+  font-size: var(--text-lg);
+}
+
+.cart-line__unit {
+  margin-top: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-line__controls {
+  grid-area: controls;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+}
+
+.cart-line__total {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-line__remove {
+  grid-area: remove;
+  justify-self: start;
+}
+
+/* Wide column (42rem+): single-row layout */
+@container (min-width: 42rem) {
+  .cart-line {
+    grid-template-columns: 6rem minmax(0, 1fr) auto 6.5rem auto;
+    grid-template-areas: "media info qty total remove";
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  /* Let qty and total take part in the line's grid directly */
+  .cart-line__controls {
+    display: contents;
+  }
+
+  .cart-line__qty {
+    grid-area: qty;
+  }
+
+  .cart-line__total {
+    grid-area: total;
+    text-align: right;
+  }
+}
+
+/* ---------- Order summary ---------- */
+.cart-summary {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.cart-summary__title {
+  font-size: var(--text-xl);
+}
+
+.summary-lines {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.summary-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-line dt {
+  color: var(--text-muted);
+}
+
+.summary-line dd {
+  margin: 0;
+}
+
+.summary-line--total {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-strong);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+}
+
+.summary-line--total dt {
+  color: var(--text);
+}
+
+.cart-summary__status:empty {
+  display: none;
+}
+
+.cart-summary__note {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.cart-summary .link {
+  justify-self: start;
+}
+
+/* ==========================================================================
    About page
    ========================================================================== */
 
@@ -157,7 +1102,6 @@
     grid-column: span 2;
   }
 }
-
 /* ==========================================================================
    Reservation & contact pages
    ========================================================================== */
@@ -186,6 +1130,23 @@
 
   .form-layout--flip {
     grid-template-columns: 26rem minmax(0, 1fr);
+  }
+}
+
+/* The form panel is the query container: two columns only when the panel
+   itself is wide enough (it is only ~380px wide beside the sidebar at 900px). */
+.form-panel {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.form-panel .form-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@container (min-width: 32rem) {
+  .form-panel .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -220,7 +1181,6 @@ input[type="date"].field__control::-webkit-date-and-time-value {
   cursor: not-allowed;
   opacity: 0.55;
 }
-
 /* ---------- Demo success panel ---------- */
 .form-success {
   display: grid;
@@ -308,7 +1268,6 @@ input[type="date"].field__control::-webkit-date-and-time-value {
   border-bottom: 1px solid var(--border);
   overflow-wrap: anywhere;
 }
-
 /* ---------- Illustrative map placeholder ---------- */
 .map-placeholder {
   border: 1px solid var(--border);
@@ -354,3 +1313,4 @@ input[type="date"].field__control::-webkit-date-and-time-value {
   color: var(--text-muted);
   font-size: var(--text-sm);
 }
+
