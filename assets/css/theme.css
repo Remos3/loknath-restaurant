@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Lokenath Restaurant & Hotel — theme.css
+   Brand colours and small overrides. Loaded AFTER pages.css on every page.
+   ========================================================================== */
+
+:root {
+  --color-bone: #fbf4e4;
+  --color-bone-deep: #f3e8cc;
+  --color-ink: #1f1410;
+  --color-ember: #9b2c1f;
+  --color-ember-deep: #7d2218;
+  --color-forest: #3a1f1a;
+  --color-forest-deep: #2e1815;
+  --color-brass: #e3a72f;
+  --color-stone: #e0d3b5;
+  --color-muted: #6a5a4c;
+}
+
+/* Shorter wordmark so the header fits on 320px phones */
+.logo__word {
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+}
+
+.logo--lg .logo__word {
+  font-size: 1.35rem;
+}
+
+/* Hero without a photo: warm glow on the dark background */
+.hero {
+  background-image:
+    radial-gradient(60rem 28rem at 88% 8%, rgba(227, 167, 47, 0.2), transparent 60%),
+    radial-gradient(40rem 24rem at 0% 100%, rgba(155, 44, 31, 0.35), transparent 60%);
+}
+
+.hero::after {
+  background: linear-gradient(to top, rgba(20, 10, 8, 0.3), rgba(20, 10, 8, 0) 60%);
+}
+
+.hero__content h1 {
+  max-width: 16ch;
+}
+
+/* Cart lines without a photo: no empty image box */
+.cart-line--text {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "info"
+    "controls"
+    "remove";
+}
+
+@container (min-width: 42rem) {
+  .cart-line--text {
+    grid-template-columns: minmax(0, 1fr) auto 6.5rem auto;
+    grid-template-areas: "info qty total remove";
+  }
+}
