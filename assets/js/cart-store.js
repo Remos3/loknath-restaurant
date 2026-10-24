@@ -11,7 +11,8 @@
  *   badge, menu and cart page stay in sync (including across browser tabs).
  */
 
-const STORAGE_KEY = "oriel.cart.v1";
+const STORAGE_KEY = "lokenath.cart.v1";
+export const TAX_BPS = 0; // menu prices as printed, no tax added
 
 export const CART_EVENT = "cart:change";
 export const MAX_QTY = 20;
