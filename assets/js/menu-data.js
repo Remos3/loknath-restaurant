@@ -10,6 +10,8 @@
  * e.g. "Mutton Biriyani (Full)" and "Mutton Biriyani (Half)", so each can be
  * added to the cart on its own.
  *
+ * Photos: each dish uses assets/img/menu/<photo-name>.jpg. See tools/photo-tool.html.
+ *
  * Tags are only set where the dish name makes it clear. Untagged dishes are
  * unspecified (ask the restaurant). Please confirm tags with the owner.
  */
@@ -49,7 +51,7 @@ const slugify = (text) =>
 const list = [];
 
 /** One price. */
-function add(category, name, rupees, tags = [], description = "") {
+function add(category, name, rupees, tags = [], description = "", photo = slugify(name)) {
   list.push({
     id: slugify(name),
     name,
@@ -57,14 +59,16 @@ function add(category, name, rupees, tags = [], description = "") {
     priceCents: rupees * 100,
     category,
     tags,
-    image: "",
+    // Photo file: assets/img/menu/<photo>.jpg (if it is missing, an illustration shows instead)
+    image: `assets/img/menu/${photo}.jpg`,
   });
 }
 
 /** Full and Half prices become two dishes. */
 function addFullHalf(category, name, full, half, tags = []) {
-  add(category, `${name} (Full)`, full, tags, "Full plate");
-  add(category, `${name} (Half)`, half, tags, "Half plate");
+  const photo = slugify(name); // Full and Half share one photo
+  add(category, `${name} (Full)`, full, tags, "Full plate", photo);
+  add(category, `${name} (Half)`, half, tags, "Half plate", photo);
 }
 
 /* ---------- Biriyani ---------- */
@@ -185,4 +189,4 @@ export const DISHES = Object.freeze(list);
 
 export function getDishById(id) {
   return DISHES.find((dish) => dish.id === id) ?? null;
-}
+  }
