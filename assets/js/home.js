@@ -1,13 +1,13 @@
 /**
- * Oriel — home.js
- * Homepage only: demo add-to-cart buttons and today's opening hours.
+ * Lokenath Restaurant & Hotel — home.js
+ * Homepage only: add-to-cart buttons and the open/closed status line.
  * Shared behaviour (nav, cart badge, reveal) lives in main.js.
  */
 
 import { addItem } from "./cart-store.js";
-import { $, $$, showToast } from "./utils.js";
+import { $, showToast } from "./utils.js";
 
-/* ---------- Featured menu: add to cart (demo) ---------- */
+/* ---------- Featured menu: add to cart ---------- */
 function initAddToCart() {
   const timers = new WeakMap();
 
@@ -23,7 +23,7 @@ function initAddToCart() {
       return;
     }
 
-    showToast(`${name} added to your cart (demo).`, { type: "success" });
+    showToast(`${name} added to your cart.`, { type: "success" });
 
     // Brief visual confirmation on the button itself.
     const label = button.firstChild;
@@ -41,46 +41,38 @@ function initAddToCart() {
   });
 }
 
-/* ---------- Opening hours: highlight today (Portland time) ---------- */
+/* ---------- Open / closed status (India time) ---------- */
+const OPEN_MINUTES = 9 * 60; //  9:00 am
+const CLOSE_MINUTES = 20 * 60; // 8:00 pm
 
-/** Weekday number (0 = Sunday) in Portland, or null if Intl can't resolve the zone. */
-function portlandWeekday() {
+/** Minutes since midnight in India, or null if Intl can't resolve the zone. */
+function indiaMinutes() {
   try {
-    const name = new Intl.DateTimeFormat("en-US", {
-      weekday: "short",
-      timeZone: "America/Los_Angeles",
-    }).format(new Date());
-    const index = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(name);
-    return index === -1 ? null : index;
+    const parts = new Intl.DateTimeFormat("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+      timeZone: "Asia/Kolkata",
+    }).formatToParts(new Date());
+    const hour = Number(parts.find((p) => p.type === "hour")?.value);
+    const minute = Number(parts.find((p) => p.type === "minute")?.value);
+    return Number.isFinite(hour) && Number.isFinite(minute) ? hour * 60 + minute : null;
   } catch {
     return null;
   }
 }
 
 function initHours() {
-  const list = $("[data-hours]");
-  if (!list) return;
-
-  const portland = portlandWeekday();
-  const day = portland ?? new Date().getDay();
-  const zoneNote = portland === null ? "" : " (Portland time)";
-
-  const row = $$("[data-days]", list).find((el) =>
-    el.dataset.days.split(" ").includes(String(day))
-  );
-  if (!row) return;
-
-  row.classList.add("is-today");
-  row.setAttribute("aria-current", "date");
-
-  const hours = $("dd", row).textContent.trim();
   const status = $("[data-hours-status]");
-  if (status) {
-    status.textContent =
-      hours.toLowerCase() === "closed"
-        ? `We’re closed today${zoneNote}. See you tomorrow.`
-        : `Open today, ${hours}${zoneNote}.`;
-  }
+  if (!status) return;
+
+  const now = indiaMinutes();
+  if (now === null) return;
+
+  status.textContent =
+    now >= OPEN_MINUTES && now < CLOSE_MINUTES
+      ? "Open now, until 8:00 pm (India time)."
+      : "Closed right now. We open at 9:00 am (India time).";
 }
 
 initAddToCart();
