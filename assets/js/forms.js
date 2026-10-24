@@ -1,10 +1,11 @@
 /**
- * Oriel — forms.js
- * Reservation + contact forms (DEMO ONLY).
+ * Lokenath Restaurant & Hotel — forms.js
+ * Booking-enquiry + contact forms (DEMO ONLY).
  *
  * Nothing is sent, stored or booked: no network requests, no localStorage.
  * Validation runs on blur, live once a field has an error, and on submit.
- * Every success message states that the form is a demo.
+ * Every success message states that the form is a demo and points visitors
+ * to the phone number or WhatsApp for real bookings.
  *
  * Forms are marked up with [data-demo-form="reservation|contact"] and start
  * hidden; this script reveals them (the pages show a <noscript> notice).
@@ -56,16 +57,13 @@ const formatTime = (minutes) => {
 
 const timeValue = (minutes) => `${pad(Math.floor(minutes / 60))}:${pad(minutes % 60)}`;
 
-/** Opening hours by weekday (0 = Sunday). `last` is the final seating hour. */
-const SCHEDULE = {
-  0: { open: 16, last: 20 }, // Sunday 4–9 pm
-  1: null, //                   Monday closed
-  2: { open: 17, last: 21 }, // Tue–Thu 5–10 pm
-  3: { open: 17, last: 21 },
-  4: { open: 17, last: 21 },
-  5: { open: 17, last: 22 }, // Fri–Sat 5–11 pm
-  6: { open: 17, last: 22 },
-};
+/**
+ * Opening hours by weekday (0 = Sunday): 9:00 am to 8:00 pm every day.
+ * `last` is the final seating hour (one hour before closing).
+ * Change these numbers if the real timing differs.
+ */
+const DAILY = { open: 9, last: 19 };
+const SCHEDULE = { 0: DAILY, 1: DAILY, 2: DAILY, 3: DAILY, 4: DAILY, 5: DAILY, 6: DAILY };
 
 /** Half-hour slots for a date; same-day slots need an hour's notice. */
 function slotsFor(date) {
@@ -244,9 +242,9 @@ function setupDemoForm(form, { rules: fieldRules, summarize, afterReset }) {
             behavior: prefersReducedMotion() ? "auto" : "smooth",
             block: "start",
           });
-          showToast("Demo only: nothing was submitted.", { type: "success" });
+          showToast("Demo only: nothing was sent.", { type: "success" });
         } catch (error) {
-          console.error("[oriel] Demo form failed", error);
+          console.error("[lokenath] Demo form failed", error);
           setStatus(
             form,
             "error",
@@ -278,7 +276,7 @@ function setupDemoForm(form, { rules: fieldRules, summarize, afterReset }) {
   return validator;
 }
 
-/* ---------- Reservation form ---------- */
+/* ---------- Booking enquiry form ---------- */
 
 function initReservation(form) {
   const dateEl = form.elements.namedItem("date");
@@ -298,9 +296,9 @@ function initReservation(form) {
     const today = startOfToday();
     if (date < today) return "Please choose today or a future date.";
     if (date > addDays(today, MAX_ADVANCE_DAYS)) {
-      return `Tables are released ${MAX_ADVANCE_DAYS} days ahead. Please choose an earlier date.`;
+      return `Please choose a date within the next ${MAX_ADVANCE_DAYS} days.`;
     }
-    if (!SCHEDULE[date.getDay()]) return "We’re closed on Mondays. Please choose another day.";
+    if (!SCHEDULE[date.getDay()]) return "We’re closed that day. Please choose another day.";
     if (!slotsFor(date).length) return "No times are left today. Please choose another date.";
     return "";
   };
@@ -329,7 +327,7 @@ function initReservation(form) {
 
     timeHint.textContent = usable
       ? `Last seating ${formatTime(SCHEDULE[date.getDay()].last * 60)}.`
-      : "Times appear once you pick an open date.";
+      : "Times appear once you pick a date.";
   }
 
   const validator = setupDemoForm(form, {
@@ -346,7 +344,7 @@ function initReservation(form) {
       guests(value) {
         if (!value) return "Please select the number of guests.";
         if (value === "7plus") {
-          return "For parties of seven or more, please contact us instead.";
+          return "For seven or more guests or a function, please call or WhatsApp us.";
         }
         const n = Number(value);
         return Number.isInteger(n) && n >= 1 && n <= 6 ? "" : "Please select a valid party size.";
@@ -357,7 +355,7 @@ function initReservation(form) {
       notes: (value) =>
         value.length > 300 ? "Please keep special requests under 300 characters." : "",
       consent: (checked) =>
-        rules.consent(checked, "Please confirm that you understand this is a demo."),
+        rules.consent(checked, "Please confirm that you understand this is a demo form."),
     },
     summarize(f) {
       const get = (name) => f.elements.namedItem(name).value;
@@ -367,7 +365,7 @@ function initReservation(form) {
         [
           "Date",
           date
-            ? date.toLocaleDateString("en-US", {
+            ? date.toLocaleDateString("en-IN", {
                 weekday: "long",
                 month: "long",
                 day: "numeric",
@@ -424,7 +422,7 @@ function initContact(form) {
         return "";
       },
       consent: (checked) =>
-        rules.consent(checked, "Please confirm that you understand this is a demo."),
+        rules.consent(checked, "Please confirm that you understand this is a demo form."),
     },
     summarize(f) {
       const get = (name) => f.elements.namedItem(name).value;
@@ -438,7 +436,7 @@ function initContact(form) {
     afterReset: updateCount,
   });
 
-  // Deep link from the reservation page: contact.html?topic=large-party
+  // Deep link, e.g. contact.html?topic=functions
   const requested = new URLSearchParams(window.location.search).get("topic");
   if (requested && $$("option", topic).some((o) => o.value === requested)) {
     topic.value = requested;
