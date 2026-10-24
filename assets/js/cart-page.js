@@ -1,7 +1,8 @@
 /**
- * Oriel — cart-page.js
+ * Lokenath Restaurant & Hotel — cart-page.js
  * Cart page: renders lines, quantity controls, removal, totals and the empty
- * state. DEMO ONLY: "Checkout" never collects or processes payment details.
+ * state. The "Order on WhatsApp" link opens WhatsApp with the order typed out;
+ * nothing is sent until the customer presses send, and no payment is taken.
  *
  * Lines are reconciled (not re-created) on every change, so keyboard focus
  * stays on the control the person is using.
@@ -17,6 +18,7 @@ import {
   setQuantity,
   subscribe,
 } from "./cart-store.js";
+import { buildOrderUrl } from "./site-config.js";
 import { $, createEl, formatCurrency, pluralize, showToast } from "./utils.js";
 
 const els = {
@@ -29,8 +31,7 @@ const els = {
   tax: $("[data-summary-tax]"),
   taxLabel: $("[data-summary-tax-label]"),
   total: $("[data-summary-total]"),
-  checkout: $("[data-checkout]"),
-  checkoutStatus: $("[data-checkout-status]"),
+  whatsapp: $("[data-whatsapp]"),
   storageWarning: $("[data-storage-warning]"),
   clearStart: $('[data-action="clear-start"]'),
   clearConfirm: $("[data-clear-confirm]"),
@@ -64,14 +65,17 @@ function buildLine(item) {
     attrs: { "data-id": item.id },
   });
 
-  const media = createEl("figure", { className: "cart-line__media" });
   const src = safeImage(item.image);
   if (src) {
+    const media = createEl("figure", { className: "cart-line__media" });
     const img = createEl("img", {
       attrs: { src, alt: "", width: 96, height: 120, loading: "lazy", decoding: "async" },
     });
     img.addEventListener("error", () => img.remove(), { once: true });
     media.append(img);
+    li.append(media);
+  } else {
+    li.classList.add("cart-line--text"); // no empty image box
   }
 
   const info = createEl("div", { className: "cart-line__info" });
@@ -114,7 +118,7 @@ function buildLine(item) {
     attrs: { type: "button", "data-action": "remove" },
   });
 
-  li.append(media, info, controls, remove);
+  li.append(info, controls, remove);
   return li;
 }
 
@@ -168,7 +172,11 @@ function renderSummary({ count, subtotalCents, taxRate, taxCents, totalCents }) 
   els.subtotal.textContent = formatCurrency(subtotalCents);
   els.tax.textContent = formatCurrency(taxCents);
   els.total.textContent = formatCurrency(totalCents);
-  els.taxLabel.textContent = `Estimated tax (${Number((taxRate * 100).toFixed(2))}%)`;
+  els.taxLabel.textContent = `Tax (${Number((taxRate * 100).toFixed(2))}%)`;
+
+  // Menu prices are final, so hide the tax row when no tax is added.
+  const taxRow = els.tax.closest(".summary-line");
+  if (taxRow) taxRow.hidden = taxCents === 0;
 }
 
 function resetClearConfirm() {
@@ -185,7 +193,8 @@ function render(snapshot = readSnapshot()) {
 
   if (isEmpty) {
     resetClearConfirm();
-    els.checkoutStatus.replaceChildren();
+  } else {
+    els.whatsapp.href = buildOrderUrl(snapshot.items, snapshot);
   }
 
   renderLines(snapshot.items);
@@ -255,26 +264,13 @@ function onContentClick(event) {
   }
 }
 
-function onCheckout() {
-  // DEMO ONLY: no payment details are collected and nothing is submitted.
-  const notice = createEl("div", { className: "notice" });
-  notice.append(
-    createEl("span", { className: "notice__title", text: "Demo checkout." }),
-    createEl("span", {
-      text: "This portfolio site has no payment or ordering system, so no order was placed and nothing was charged. Your cart has been left as it is.",
-    })
-  );
-  els.checkoutStatus.replaceChildren(notice);
-}
-
 /* ---------- Boot ---------- */
 
 if (Object.values(els).every(Boolean)) {
   els.list.addEventListener("click", onListClick);
   els.content.addEventListener("click", onContentClick);
-  els.checkout.addEventListener("click", onCheckout);
 
   // Fires for changes on this page, in other tabs, and after bfcache restores.
   subscribe((snapshot) => render(snapshot));
   render();
-}
+    }
