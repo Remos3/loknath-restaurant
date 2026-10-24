@@ -1,7 +1,11 @@
 /**
- * Oriel — menu.js
- * Menu page: loads menu data, renders grouped dishes, search + filters,
- * and keeps add-to-cart / quantity controls in sync with the cart store.
+ * Lokenath Restaurant & Hotel — menu.js
+ * Menu page: loads menu data, renders grouped dishes with photos, search +
+ * filters, and keeps add-to-cart / quantity controls in sync with the cart.
+ *
+ * Each dish shows its photo (assets/img/menu/<name>.jpg). If that file does
+ * not exist, a drawn illustration is shown instead, so rows never look broken.
+ * Photos load only when they come near the screen (saves mobile data).
  *
  * States handled: loading (skeleton), error (retry), empty results, results.
  * Requires JavaScript; menu.html shows a <noscript> notice otherwise.
@@ -39,12 +43,16 @@ const chrome = $$("[data-menu-chrome]");
 
 const state = { query: "", category: "all", diets: new Set() };
 
+// Categories that have their own illustration; others use the generic plate.
+const CATEGORY_ART = new Set(["biriyani", "thali", "momo", "chawmein", "rolls", "drinks"]);
+
 let categories = [];
 let dietary = [];
 let dishes = [];
 let entries = []; // [{ dish, text }] — text is the normalised search haystack
 let dishById = new Map();
 let ready = false;
+let thumbObserver = null;
 
 /* ---------- Helpers ---------- */
 
@@ -97,7 +105,7 @@ function validateMenu(mod) {
         catIds.has(d.category);
 
       if (!ok) {
-        console.warn("[oriel] Skipping invalid dish", d);
+        console.warn("[lokenath] Skipping invalid dish", d);
         return false;
       }
       seen.add(d.id);
@@ -106,7 +114,11 @@ function validateMenu(mod) {
     .map((d) => ({
       ...d,
       tags: Array.isArray(d.tags) ? d.tags.filter((t) => dietIds.has(t)) : [],
-      image: typeof d.image === "string" ? d.image : "",
+      // Only plain local image paths are accepted.
+      image:
+        typeof d.image === "string" && /^assets\/img\/[\w\-/]+\.(?:jpe?g|png|webp)$/.test(d.image)
+          ? d.image
+          : "",
     }));
 
   if (!cats.length || !valid.length) {
@@ -151,7 +163,7 @@ async function loadMenu({ retry = false } = {}) {
     render();
     focusFromHash();
   } catch (error) {
-    console.error("[oriel] Menu failed to load", error);
+    console.error("[lokenath] Menu failed to load", error);
     showError();
   }
 }
@@ -249,6 +261,47 @@ function clearAll() {
   els.search.focus();
 }
 
+/* ---------- Dish photos (lazy) ---------- */
+
+/** Photo on top, illustration underneath as the fallback. */
+function thumbBackground(dish) {
+  const art = CATEGORY_ART.has(dish.category) ? dish.category : "dish";
+  const layers = [`url("assets/img/art/${art}.svg")`];
+  if (dish.image) layers.unshift(`url("${dish.image}")`);
+  return layers.join(", ");
+}
+
+function applyThumb(thumb) {
+  const bg = thumb.dataset.bg;
+  if (!bg) return;
+  thumb.style.backgroundImage = bg;
+  delete thumb.dataset.bg;
+}
+
+function lazyLoadThumbs() {
+  const thumbs = $$(".menu-item__thumb[data-bg]", els.results);
+  if (!thumbs.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    thumbs.forEach(applyThumb);
+    return;
+  }
+
+  thumbObserver?.disconnect();
+  thumbObserver = new IntersectionObserver(
+    (observed, observer) => {
+      observed.forEach((entry) => {
+        if (entry.isIntersecting) {
+          applyThumb(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: "400px 0px" }
+  );
+  thumbs.forEach((thumb) => thumbObserver.observe(thumb));
+}
+
 /* ---------- Rendering ---------- */
 
 function dietBadges(dish) {
@@ -259,28 +312,19 @@ function dietBadges(dish) {
 }
 
 function buildItem(dish) {
-  const hasMedia = Boolean(dish.image);
   const li = createEl("li", {
-    className: hasMedia ? "menu-item menu-item--media" : "menu-item",
+    className: "menu-item menu-item--media",
     attrs: { id: dish.id, tabindex: "-1", "data-dish-id": dish.id },
   });
 
-  if (hasMedia) {
-    const figure = createEl("figure", { className: "menu-item__media" });
-    figure.append(
-      createEl("img", {
-        attrs: {
-          src: dish.image,
-          alt: "",
-          width: 240,
-          height: 300,
-          loading: "lazy",
-          decoding: "async",
-        },
-      })
-    );
-    li.append(figure);
-  }
+  const figure = createEl("figure", { className: "menu-item__media" });
+  const thumb = createEl("div", {
+    className: "menu-item__thumb",
+    attrs: { "aria-hidden": "true" },
+  });
+  thumb.dataset.bg = thumbBackground(dish);
+  figure.append(thumb);
+  li.append(figure);
 
   /* Body */
   const body = createEl("div", { className: "menu-item__body" });
@@ -444,6 +488,7 @@ function render() {
   els.count.textContent = countMessage(matches.length);
   syncFilterUI();
   syncBuyControls();
+  lazyLoadThumbs();
 }
 
 /* ---------- Cart synchronisation ---------- */
@@ -507,7 +552,7 @@ function onResultsClick(event) {
       showToast("Sorry, that dish couldn’t be added.", { type: "error" });
       return;
     }
-    showToast(`${dish.name} added to your cart (demo).`, { type: "success" });
+    showToast(`${dish.name} added to your cart.`, { type: "success" });
     $('[data-action="increase"]', li)?.focus();
     return;
   }
@@ -555,6 +600,10 @@ function focusFromHash() {
   }
   if (!target) return;
 
+  // Make sure the photo is loaded for the dish we jump to.
+  const thumb = $(".menu-item__thumb", target);
+  if (thumb) applyThumb(thumb);
+
   target.scrollIntoView({
     behavior: prefersReducedMotion() ? "auto" : "smooth",
     block: "center",
@@ -565,14 +614,6 @@ function focusFromHash() {
 }
 
 /* ---------- Events ---------- */
-
-function onImageError(event) {
-  const img = event.target;
-  if (!(img instanceof HTMLImageElement)) return;
-  const li = img.closest(".menu-item");
-  img.closest(".menu-item__media")?.remove();
-  li?.classList.remove("menu-item--media");
-}
 
 function bindEvents() {
   els.form.addEventListener("submit", (event) => event.preventDefault());
@@ -603,8 +644,6 @@ function bindEvents() {
 
   els.clear.addEventListener("click", clearAll);
   els.results.addEventListener("click", onResultsClick);
-  // Image "error" events don't bubble, so listen in the capture phase.
-  els.results.addEventListener("error", onImageError, true);
 
   window.addEventListener("hashchange", () => {
     if (ready) focusFromHash();
@@ -619,4 +658,4 @@ function bindEvents() {
 if (els.form && els.search && els.categoryChips && els.dietChips && els.count && els.clear && els.results) {
   bindEvents();
   loadMenu();
-}
+                              }
