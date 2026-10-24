@@ -1,6 +1,6 @@
 /**
- * Oriel — cart-store.js
- * localStorage-backed cart (DEMO ONLY: no real orders or payments).
+ * Lokenath Restaurant & Hotel — cart-store.js
+ * localStorage-backed cart. No payment happens on this site; orders are sent by WhatsApp.
  *
  * - Money is stored as integer cents to avoid floating-point errors.
  * - Tax is computed with integer basis points, then rounded once.
@@ -12,12 +12,11 @@
  */
 
 const STORAGE_KEY = "lokenath.cart.v1";
-export const TAX_BPS = 0; // menu prices as printed, no tax added
 
 export const CART_EVENT = "cart:change";
 export const MAX_QTY = 20;
 export const MAX_LINES = 100;
-export const TAX_BPS = 875; // 8.75%, in basis points. Demo estimate only.
+export const TAX_BPS = 0; // Menu prices are final as printed; no tax is added.
 export const TAX_RATE = TAX_BPS / 10000;
 
 let memoryCart = [];
@@ -25,7 +24,7 @@ let storageAvailable = detectStorage();
 
 function detectStorage() {
   try {
-    const probe = "__oriel_probe__";
+    const probe = "__lokenath_probe__";
     window.localStorage.setItem(probe, "1");
     window.localStorage.removeItem(probe);
     return true;
