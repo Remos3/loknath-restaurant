@@ -1,5 +1,5 @@
 /**
- * Oriel — utils.js
+ * Lokenath Restaurant & Hotel — utils.js
  * Small, dependency-free helpers shared across all pages.
  */
 
@@ -8,14 +8,21 @@ export const $ = (selector, scope = document) => scope.querySelector(selector);
 export const $$ = (selector, scope = document) =>
   Array.from(scope.querySelectorAll(selector));
 
-const currencyFormatter = new Intl.NumberFormat("en-US", {
+const rupeeWhole = new Intl.NumberFormat("en-IN", {
   style: "currency",
-  currency: "USD",
+  currency: "INR",
+  maximumFractionDigits: 0,
 });
 
-/** Format integer cents as currency, e.g. 2850 -> "$28.50". */
-export function formatCurrency(cents) {
-  return currencyFormatter.format((Number(cents) || 0) / 100);
+const rupeeExact = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+});
+
+/** Format integer paise as rupees, e.g. 28000 -> "₹280". */
+export function formatCurrency(paise) {
+  const value = (Number(paise) || 0) / 100;
+  return Number.isInteger(value) ? rupeeWhole.format(value) : rupeeExact.format(value);
 }
 
 export function pluralize(count, singular, plural = `${singular}s`) {
