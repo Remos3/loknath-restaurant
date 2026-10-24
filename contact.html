@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact (Demo) | Oriel</title>
-  <meta name="description" content="Contact page for Oriel, a fictional restaurant portfolio project. Placeholder details and a demo message form: no message is sent.">
-  <meta name="theme-color" content="#F4EFE6">
+  <title>Contact | Lokenath Restaurant &amp; Hotel</title>
+  <meta name="description" content="Contact Lokenath Restaurant &amp; Hotel, Main Road, Ramkrishna Nagar, Karimganj, Assam. Call or WhatsApp +91 93870 78054. Home delivery from Kadamtala to Block Road.">
+  <meta name="theme-color" content="#FBF4E4">
 
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Oriel">
-  <meta property="og:title" content="Contact (Demo) | Oriel">
-  <meta property="og:description" content="Contact form demo for a fictional restaurant portfolio project.">
-  <meta property="og:image" content="assets/img/og/oriel-og.jpg">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:site_name" content="Lokenath Restaurant &amp; Hotel">
+  <meta property="og:title" content="Contact | Lokenath Restaurant &amp; Hotel">
+  <meta property="og:description" content="Contact Lokenath Restaurant &amp; Hotel, Main Road, Ramkrishna Nagar, Karimganj, Assam. Call or WhatsApp +91 93870 78054. Home delivery from Kadamtala to Block Road.">
+  <meta name="twitter:card" content="summary">
 
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,6 +19,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
@@ -27,13 +27,13 @@
 
   <header class="site-header" data-site-header>
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Oriel, home">
+      <a class="logo" href="index.html" aria-label="Lokenath Restaurant and Hotel, home">
         <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-          <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
-          <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
-          <circle class="logo__dot" cx="16" cy="20" r="3"/>
+          <path d="M4 17h24c0 6-5.4 10-12 10S4 23 4 17Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+          <path d="M11 13c-1.5-1.5 1.5-3 0-5M16 13c-1.5-1.5 1.5-3 0-5M21 13c-1.5-1.5 1.5-3 0-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle class="logo__dot" cx="16" cy="22" r="2.2"/>
         </svg>
-        <span class="logo__word">Oriel</span>
+        <span class="logo__word">Lokenath</span>
       </a>
 
       <nav class="site-nav" id="site-nav" aria-label="Primary" data-site-nav>
@@ -43,11 +43,11 @@
           <li><a class="site-nav__link" href="about.html">About</a></li>
           <li><a class="site-nav__link" href="contact.html">Contact</a></li>
         </ul>
-        <a class="btn btn--primary site-nav__cta" href="reservations.html">Reserve a table</a>
+        <a class="btn btn--primary site-nav__cta" href="menu.html">Order now</a>
       </nav>
 
       <div class="site-header__actions">
-        <a class="btn btn--primary btn--sm site-header__cta" href="reservations.html">Reserve</a>
+        <a class="btn btn--primary btn--sm site-header__cta" href="menu.html">Order now</a>
 
         <a class="icon-btn cart-link" href="cart.html" aria-label="Cart, empty" data-cart-link>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -70,68 +70,62 @@
   </header>
 
   <main id="main" tabindex="-1">
-
     <section class="page-head" aria-labelledby="page-title">
       <div class="container page-head__inner">
         <p class="eyebrow eyebrow--accent">Contact</p>
         <h1 class="page-head__title" id="page-title">Get in touch.</h1>
-        <p class="lead">Questions about the menu, private dining or press? Try the message form below.</p>
-        <p class="notice">
-          <span class="notice__title">Demo</span>
-          <span>Oriel is fictional. The details on this page are placeholders, and the form does not send a message to anyone.</span>
-        </p>
+        <p class="lead">The quickest way to reach us is to call or message us on WhatsApp.</p>
+        <div class="cluster">
+          <a class="btn btn--primary" href="tel:+919387078054">Call +91 93870 78054</a>
+          <a class="btn btn--secondary" href="https://wa.me/919387078054" target="_blank" rel="noopener">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a>
+        </div>
       </div>
     </section>
 
     <section class="section section--flush-top" aria-label="Contact details and message form">
       <div class="container form-layout form-layout--flip">
 
-        <aside class="form-aside" aria-label="Contact details (placeholders)">
+        <aside class="form-aside" aria-label="Contact details">
           <div class="info-block">
             <h2 class="info-heading">Find us</h2>
             <address class="info-address">
-              214 Harbor Street<br>
-              Portland, Oregon 97204
+              Lokenath Restaurant &amp; Hotel<br>
+              Main Road, Ramkrishna Nagar<br>
+              Dist. Karimganj, Assam
             </address>
-            <div class="map-placeholder">
-              <svg viewBox="0 0 640 400" role="img" aria-labelledby="map-title">
-                <title id="map-title">Illustrative map placeholder. No live map is shown.</title>
-                <rect width="640" height="400" class="map-bg"/>
-                <path class="map-river" d="M0 300 C140 250 240 340 380 290 S560 230 640 260"/>
-                <g class="map-streets">
-                  <path d="M0 80h640M0 170h640M0 250h640M0 340h640"/>
-                  <path d="M120 0v400M260 0v400M400 0v400M520 0v400"/>
-                </g>
-                <circle class="map-pin-halo" cx="400" cy="170" r="22"/>
-                <circle class="map-pin" cx="400" cy="170" r="9"/>
-              </svg>
-              <p class="map-placeholder__caption">Illustrative placeholder, not a real map. The address is fictional.</p>
-            </div>
+            <a class="link link-arrow" href="https://www.google.com/maps/search/?api=1&amp;query=Lokenath+Restaurant+and+Hotel+Ramkrishna+Nagar+Karimganj+Assam" target="_blank" rel="noopener">Open in Google Maps<span class="visually-hidden"> (opens in a new tab)</span></a>
           </div>
 
           <div class="info-block">
-            <h2 class="info-heading">Placeholder contact details</h2>
+            <h2 class="info-heading">Phone &amp; social</h2>
             <ul class="info-list">
-              <li><span class="text-muted">Phone:</span> (503) 555-0142 <span class="text-muted">(fictional number)</span></li>
-              <li><span class="text-muted">Email:</span> hello@oriel.example <span class="text-muted">(placeholder, not a real inbox)</span></li>
+              <li><span class="text-muted">Phone / WhatsApp:</span> <a class="link" href="tel:+919387078054">+91 93870 78054</a></li>
+              <li><span class="text-muted">Instagram:</span> LOKNATH RESTAURANT &amp; HOTEL_08</li>
             </ul>
           </div>
 
           <div class="info-block">
-            <h2 class="info-heading">Opening hours</h2>
+            <h2 class="info-heading">Timing</h2>
             <dl class="hours">
-              <div class="hours__row"><dt>Monday</dt><dd>Closed</dd></div>
-              <div class="hours__row"><dt>Tuesday–Thursday</dt><dd>5–10 pm</dd></div>
-              <div class="hours__row"><dt>Friday–Saturday</dt><dd>5–11 pm</dd></div>
-              <div class="hours__row"><dt>Sunday</dt><dd>4–9 pm</dd></div>
+              <div class="hours__row"><dt>Every day</dt><dd>9:00 am – 8:00 pm</dd></div>
             </dl>
+          </div>
+
+          <div class="info-block">
+            <h2 class="info-heading">Home delivery</h2>
+            <p>Kadamtala to Block Road (Ramkrishna Nagar).</p>
           </div>
         </aside>
 
         <div class="form-panel">
           <noscript>
-            <p class="notice notice--error">The contact form needs JavaScript. Please enable it to try the demo.</p>
+            <p class="notice notice--error">The form needs JavaScript. Please enable it to try the demo.</p>
           </noscript>
+
+          <p class="notice" style="margin-bottom:var(--space-6)">
+            <span class="notice__title">Demo form</span>
+            <span>This form does not send a message to anyone. Please call or use WhatsApp to reach the restaurant.</span>
+          </p>
 
           <form id="contact-form" data-demo-form="contact" novalidate hidden
                 aria-label="Message form (demo)">
@@ -157,9 +151,8 @@
                         aria-describedby="contact-topic-error">
                   <option value="">Select a topic</option>
                   <option value="general">General question</option>
-                  <option value="large-party">Party of seven or more</option>
-                  <option value="private-dining">Private dining</option>
-                  <option value="press">Press</option>
+                  <option value="delivery">Home delivery</option>
+                  <option value="functions">Function or party order</option>
                   <option value="feedback">Feedback</option>
                   <option value="other">Something else</option>
                 </select>
@@ -179,7 +172,7 @@
               <div class="field--full check-field" data-field>
                 <label class="check">
                   <input type="checkbox" name="consent" value="yes" required aria-describedby="contact-consent-error">
-                  <span>I understand this is a demo and that my message will not be sent. <span aria-hidden="true">*</span></span>
+                  <span>I understand this is a demo form and my message will not be sent. <span aria-hidden="true">*</span></span>
                 </label>
                 <p class="field__error" id="contact-consent-error"></p>
               </div>
@@ -196,11 +189,12 @@
           <div class="form-success" data-form-success hidden>
             <p class="badge badge--accent">Demo only</p>
             <h2 class="form-success__title" tabindex="-1" data-form-success-title>Demo complete. No message was sent.</h2>
-            <p>This is a portfolio demo for a fictional restaurant. Your message was not sent to anyone, no reply is coming, and the details you entered were not stored or transmitted anywhere.</p>
+            <p>This is a demo form. Your message was not sent to the restaurant, no reply is coming, and the details you entered were not stored or sent anywhere.</p>
             <dl class="summary-list" data-form-summary aria-label="What you entered (demo)"></dl>
+            <p>To reach us for real, please call <a class="link" href="tel:+919387078054">+91 93870 78054</a> or message us on <a class="link" href="https://wa.me/919387078054" target="_blank" rel="noopener">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
             <div class="cluster">
               <button class="btn btn--secondary" type="button" data-form-reset>Try the form again</button>
-              <a class="link link-arrow" href="reservations.html">Try the reservation demo</a>
+              <a class="link link-arrow" href="menu.html">Browse the menu</a>
             </div>
           </div>
         </div>
@@ -214,34 +208,32 @@
     <div class="container">
       <div class="site-footer__grid">
         <div>
-          <a class="logo logo--lg" href="index.html" aria-label="Oriel, home">
+          <a class="logo logo--lg" href="index.html" aria-label="Lokenath Restaurant and Hotel, home">
             <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-              <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
-              <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
-              <circle class="logo__dot" cx="16" cy="20" r="3"/>
-            </svg>
-            <span class="logo__word">Oriel</span>
+          <path d="M4 17h24c0 6-5.4 10-12 10S4 23 4 17Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+          <path d="M11 13c-1.5-1.5 1.5-3 0-5M16 13c-1.5-1.5 1.5-3 0-5M21 13c-1.5-1.5 1.5-3 0-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle class="logo__dot" cx="16" cy="22" r="2.2"/>
+        </svg>
+            <span class="logo__word">Lokenath</span>
           </a>
-          <p class="site-footer__blurb">A seasonal kitchen cooking over open wood fire.</p>
+          <p class="site-footer__blurb">Restaurant &amp; Hotel. Biriyani, momo, chawmein, rice meals and more.</p>
         </div>
 
         <div>
           <h2 class="site-footer__heading">Visit</h2>
           <address>
-            214 Harbor Street<br>
-            Portland, Oregon 97204<br>
-            (503) 555-0142<br>
-            <span class="text-muted">Fictional address and number</span>
+            Main Road, Ramkrishna Nagar<br>
+            Dist. Karimganj, Assam<br>
+            <a class="link" href="tel:+919387078054">+91 93870 78054</a>
           </address>
         </div>
 
         <div>
-          <h2 class="site-footer__heading">Hours</h2>
+          <h2 class="site-footer__heading">Timing</h2>
           <p>
-            Tue–Thu · 5–10 pm<br>
-            Fri–Sat · 5–11 pm<br>
-            Sunday · 4–9 pm<br>
-            Monday · Closed
+            Every day<br>
+            9:00 am – 8:00 pm<br>
+            Home delivery: Kadamtala to Block Road
           </p>
         </div>
 
@@ -249,18 +241,19 @@
           <h2 class="site-footer__heading">Explore</h2>
           <ul class="site-footer__list">
             <li><a href="menu.html">Menu</a></li>
-            <li><a href="about.html">Our story</a></li>
-            <li><a href="reservations.html">Reservations</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="reservations.html">Book a table</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="cart.html">Cart</a></li>
+            <li><a href="https://wa.me/919387078054" target="_blank" rel="noopener">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a></li>
           </ul>
         </nav>
       </div>
 
       <div class="site-footer__bottom">
-        <p>© <span data-year>2026</span> Oriel. All rights reserved.</p>
+        <p>© <span data-year>2026</span> Lokenath Restaurant &amp; Hotel.</p>
         <p><span class="badge">Demo</span>
-           Fictional restaurant. Portfolio project: no real bookings, orders or payments.</p>
+           Website design demo. No online payments; orders are confirmed by phone or WhatsApp.</p>
       </div>
     </div>
   </footer>
@@ -268,4 +261,4 @@
   <script type="module" src="assets/js/main.js"></script>
   <script type="module" src="assets/js/forms.js"></script>
 </body>
-  </html>
+</html>
