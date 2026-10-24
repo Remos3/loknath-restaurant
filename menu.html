@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Menu | Oriel</title>
-  <meta name="description" content="Browse the seasonal Oriel menu: wood-fired starters, mains, sides, desserts and drinks. Search by ingredient and filter by dietary needs. Fictional demo restaurant.">
-  <meta name="theme-color" content="#F4EFE6">
+  <title>Menu | Lokenath Restaurant &amp; Hotel</title>
+  <meta name="description" content="Menu of Lokenath Restaurant &amp; Hotel, Ramkrishna Nagar: biriyani, fried rice, rice meals, momo, chawmein, rolls, snacks, soup and drinks, with prices in rupees.">
+  <meta name="theme-color" content="#FBF4E4">
 
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Oriel">
-  <meta property="og:title" content="Menu | Oriel">
-  <meta property="og:description" content="The seasonal wood-fire menu at Oriel. Fictional restaurant for a portfolio demo.">
-  <meta property="og:image" content="assets/img/og/oriel-og.jpg">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:site_name" content="Lokenath Restaurant &amp; Hotel">
+  <meta property="og:title" content="Menu | Lokenath Restaurant &amp; Hotel">
+  <meta property="og:description" content="Menu of Lokenath Restaurant &amp; Hotel, Ramkrishna Nagar: biriyani, fried rice, rice meals, momo, chawmein, rolls, snacks, soup and drinks, with prices in rupees.">
+  <meta name="twitter:card" content="summary">
 
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,6 +19,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
@@ -27,13 +27,13 @@
 
   <header class="site-header" data-site-header>
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Oriel, home">
+      <a class="logo" href="index.html" aria-label="Lokenath Restaurant and Hotel, home">
         <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-          <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
-          <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
-          <circle class="logo__dot" cx="16" cy="20" r="3"/>
+          <path d="M4 17h24c0 6-5.4 10-12 10S4 23 4 17Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+          <path d="M11 13c-1.5-1.5 1.5-3 0-5M16 13c-1.5-1.5 1.5-3 0-5M21 13c-1.5-1.5 1.5-3 0-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle class="logo__dot" cx="16" cy="22" r="2.2"/>
         </svg>
-        <span class="logo__word">Oriel</span>
+        <span class="logo__word">Lokenath</span>
       </a>
 
       <nav class="site-nav" id="site-nav" aria-label="Primary" data-site-nav>
@@ -43,11 +43,11 @@
           <li><a class="site-nav__link" href="about.html">About</a></li>
           <li><a class="site-nav__link" href="contact.html">Contact</a></li>
         </ul>
-        <a class="btn btn--primary site-nav__cta" href="reservations.html">Reserve a table</a>
+        <a class="btn btn--primary site-nav__cta" href="menu.html">Order now</a>
       </nav>
 
       <div class="site-header__actions">
-        <a class="btn btn--primary btn--sm site-header__cta" href="reservations.html">Reserve</a>
+        <a class="btn btn--primary btn--sm site-header__cta" href="menu.html">Order now</a>
 
         <a class="icon-btn cart-link" href="cart.html" aria-label="Cart, empty" data-cart-link>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -70,15 +70,14 @@
   </header>
 
   <main id="main" tabindex="-1">
-
     <section class="page-head" aria-labelledby="page-title">
       <div class="container page-head__inner">
-        <p class="eyebrow eyebrow--accent">Autumn menu</p>
-        <h1 class="page-head__title" id="page-title">Fire, season, restraint.</h1>
-        <p class="lead">Everything is cooked over oak and fruitwood, and the menu changes with the farms we buy from.</p>
+        <p class="eyebrow eyebrow--accent">Our menu</p>
+        <h1 class="page-head__title" id="page-title">Biriyani, momo, thali &amp; more.</h1>
+        <p class="lead">Prices are in rupees. Add dishes to your cart, then send the order to us on WhatsApp.</p>
         <p class="notice">
-          <span class="notice__title">Demo</span>
-          <span>Fictional menu. Adding to the cart is simulated and no order is placed.</span>
+          <span class="notice__title">How ordering works</span>
+          <span>Nothing is ordered until you send the WhatsApp message and the restaurant confirms. No payment is taken on this website.</span>
         </p>
       </div>
     </section>
@@ -95,16 +94,16 @@
           <div class="field">
             <input class="field__control" id="menu-search" name="q" type="search"
                    placeholder=" " autocomplete="off" spellcheck="false" enterkeyhint="search">
-            <label class="field__label" for="menu-search">Search dishes or ingredients</label>
+            <label class="field__label" for="menu-search">Search dishes (for example momo, paneer, fish)</label>
           </div>
 
           <div class="menu-tools__filters">
             <div class="menu-tools__group" role="group" aria-labelledby="filter-course">
-              <p class="menu-tools__label" id="filter-course">Course</p>
+              <p class="menu-tools__label" id="filter-course">Category</p>
               <div class="chip-row" data-category-chips></div>
             </div>
             <div class="menu-tools__group" role="group" aria-labelledby="filter-diet">
-              <p class="menu-tools__label" id="filter-diet">Dietary</p>
+              <p class="menu-tools__label" id="filter-diet">Veg / Non-veg</p>
               <div class="chip-row" data-diet-chips></div>
             </div>
           </div>
@@ -116,8 +115,8 @@
         </div>
 
         <p class="diet-legend" data-menu-chrome hidden>
-          <strong>V</strong> Vegetarian · <strong>VG</strong> Vegan · <strong>GF</strong> Gluten-free.
-          Please tell your server about any allergies. This is a fictional demo menu.
+          <strong>V</strong> Vegetarian · <strong>NV</strong> Non-vegetarian.
+          Dishes without a mark: please ask us. Items with two sizes are listed as Full and Half.
         </p>
 
         <div data-menu-results aria-busy="true">
@@ -147,34 +146,32 @@
     <div class="container">
       <div class="site-footer__grid">
         <div>
-          <a class="logo logo--lg" href="index.html" aria-label="Oriel, home">
+          <a class="logo logo--lg" href="index.html" aria-label="Lokenath Restaurant and Hotel, home">
             <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-              <path d="M5 29V14a11 11 0 0 1 22 0v15" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
-              <path d="M5 29h22" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/>
-              <circle class="logo__dot" cx="16" cy="20" r="3"/>
-            </svg>
-            <span class="logo__word">Oriel</span>
+          <path d="M4 17h24c0 6-5.4 10-12 10S4 23 4 17Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+          <path d="M11 13c-1.5-1.5 1.5-3 0-5M16 13c-1.5-1.5 1.5-3 0-5M21 13c-1.5-1.5 1.5-3 0-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle class="logo__dot" cx="16" cy="22" r="2.2"/>
+        </svg>
+            <span class="logo__word">Lokenath</span>
           </a>
-          <p class="site-footer__blurb">A seasonal kitchen cooking over open wood fire.</p>
+          <p class="site-footer__blurb">Restaurant &amp; Hotel. Biriyani, momo, chawmein, rice meals and more.</p>
         </div>
 
         <div>
           <h2 class="site-footer__heading">Visit</h2>
           <address>
-            214 Harbor Street<br>
-            Portland, Oregon 97204<br>
-            (503) 555-0142<br>
-            <span class="text-muted">Fictional address and number</span>
+            Main Road, Ramkrishna Nagar<br>
+            Dist. Karimganj, Assam<br>
+            <a class="link" href="tel:+919387078054">+91 93870 78054</a>
           </address>
         </div>
 
         <div>
-          <h2 class="site-footer__heading">Hours</h2>
+          <h2 class="site-footer__heading">Timing</h2>
           <p>
-            Tue–Thu · 5–10 pm<br>
-            Fri–Sat · 5–11 pm<br>
-            Sunday · 4–9 pm<br>
-            Monday · Closed
+            Every day<br>
+            9:00 am – 8:00 pm<br>
+            Home delivery: Kadamtala to Block Road
           </p>
         </div>
 
@@ -182,18 +179,19 @@
           <h2 class="site-footer__heading">Explore</h2>
           <ul class="site-footer__list">
             <li><a href="menu.html">Menu</a></li>
-            <li><a href="about.html">Our story</a></li>
-            <li><a href="reservations.html">Reservations</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="reservations.html">Book a table</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="cart.html">Cart</a></li>
+            <li><a href="https://wa.me/919387078054" target="_blank" rel="noopener">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a></li>
           </ul>
         </nav>
       </div>
 
       <div class="site-footer__bottom">
-        <p>© <span data-year>2026</span> Oriel. All rights reserved.</p>
+        <p>© <span data-year>2026</span> Lokenath Restaurant &amp; Hotel.</p>
         <p><span class="badge">Demo</span>
-           Fictional restaurant. Portfolio project: no real bookings, orders or payments.</p>
+           Website design demo. No online payments; orders are confirmed by phone or WhatsApp.</p>
       </div>
     </div>
   </footer>
