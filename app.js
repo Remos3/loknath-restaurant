@@ -31,15 +31,26 @@ async function fetchCategories() {
 // Fetch available menu items
 async function fetchMenuItems() {
   const { data, error } = await db.from('menu_items')
-    .select('*, categories(name)')
+    .select('*')
     .eq('is_available', true);
 
   if (error) {
-    document.getElementById('menuContainer').innerHTML = `<p class="text-center text-red-500 text-sm">Failed to load menu: ${error.message}</p>`;
+    document.getElementById('menuContainer').innerHTML = `<p class="text-center text-red-500 text-sm py-8">Failed to load menu: ${error.message}</p>`;
     return;
   }
 
-  allMenuItems = data;
+  // Categories map load karna
+  const { data: cats } = await db.from('categories').select('*');
+  const catMap = {};
+  if (cats) {
+    cats.forEach(c => catMap[c.id] = c.name);
+  }
+
+  allMenuItems = data.map(item => ({
+    ...item,
+    category_name: catMap[item.category_id] || ''
+  }));
+
   renderMenu(allMenuItems);
 }
 
@@ -49,7 +60,7 @@ function renderMenu(items) {
   container.innerHTML = '';
 
   if (items.length === 0) {
-    container.innerHTML = `<p class="text-center text-gray-400 py-10 text-sm">No items available.</p>`;
+    container.innerHTML = `<p class="text-center text-gray-400 py-10 text-sm">No items found.</p>`;
     return;
   }
 
@@ -89,7 +100,7 @@ function renderMenu(items) {
       <div class="flex-1">
         <div class="flex items-center gap-1.5 mb-0.5">
           ${vegIcon}
-          <span class="text-xs text-amber-700 font-semibold uppercase">${item.categories?.name || ''}</span>
+          <span class="text-xs text-amber-700 font-semibold uppercase">${item.category_name}</span>
         </div>
         <h3 class="font-bold text-sm text-gray-800 leading-snug">${item.name}</h3>
       </div>
@@ -177,7 +188,7 @@ function filterCategory(cat) {
 
 function currentFilteredItems() {
   if (activeCategory === 'All') return allMenuItems;
-  return allMenuItems.filter(i => i.categories?.name === activeCategory);
+  return allMenuItems.filter(i => i.category_name === activeCategory);
 }
 
 // Modal handling
@@ -259,4 +270,6 @@ async function handlePlaceOrder(e) {
 
 // Start
 init();
-    
+```[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)
+
+Paste karke **Commit changes** kar dijiye. Uske 30 second baad browser me page ko ek baar hard refresh karke dekhein!
