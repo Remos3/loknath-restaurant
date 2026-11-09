@@ -1,328 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lokenath Restaurant &amp; Hotel | Ramkrishna Nagar, Karimganj</title>
-  <meta name="description" content="Lokenath Restaurant &amp; Hotel, Main Road, Ramkrishna Nagar, Karimganj, Assam. Biriyani, momo, chawmein, rice meals and more. Home delivery from Kadamtala to Block Road.">
-  <meta name="theme-color" content="#FBF4E4">
-
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Lokenath Restaurant &amp; Hotel">
-  <meta property="og:title" content="Lokenath Restaurant &amp; Hotel | Ramkrishna Nagar, Karimganj">
-  <meta property="og:description" content="Lokenath Restaurant &amp; Hotel, Main Road, Ramkrishna Nagar, Karimganj, Assam. Biriyani, momo, chawmein, rice meals and more. Home delivery from Kadamtala to Block Road.">
-  <meta name="twitter:card" content="summary">
-
-  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/pages.css">
-  <link rel="stylesheet" href="assets/css/theme.css">
-  <script>document.documentElement.classList.add("js");</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Lokenath Restaurant & Hotel | Order Online</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to main content</a>
+<body class="bg-gray-50 text-gray-800 pb-28 select-none">
 
-  <header class="site-header" data-site-header>
-    <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Lokenath Restaurant and Hotel, home">
-        <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-          <path d="M4 17h24c0 6-5.4 10-12 10S4 23 4 17Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
-          <path d="M11 13c-1.5-1.5 1.5-3 0-5M16 13c-1.5-1.5 1.5-3 0-5M21 13c-1.5-1.5 1.5-3 0-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <circle class="logo__dot" cx="16" cy="22" r="2.2"/>
-        </svg>
-        <span class="logo__word">Lokenath</span>
-      </a>
-
-      <nav class="site-nav" id="site-nav" aria-label="Primary" data-site-nav>
-        <ul class="site-nav__list">
-          <li><a class="site-nav__link" href="index.html">Home</a></li>
-          <li><a class="site-nav__link" href="menu.html">Menu</a></li>
-          <li><a class="site-nav__link" href="about.html">About</a></li>
-          <li><a class="site-nav__link" href="contact.html">Contact</a></li>
-        </ul>
-        <a class="btn btn--primary site-nav__cta" href="menu.html">Order now</a>
-      </nav>
-
-      <div class="site-header__actions">
-        <a class="btn btn--primary btn--sm site-header__cta" href="menu.html">Order now</a>
-
-        <a class="icon-btn cart-link" href="cart.html" aria-label="Cart, empty" data-cart-link>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M5 8h14l-1 12H6L5 8Z"/>
-            <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
-          </svg>
-          <span class="cart-link__count" data-cart-count hidden>0</span>
-        </a>
-
-        <button class="icon-btn nav-toggle" type="button"
-                aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
-          <span class="visually-hidden">Menu</span>
-          <span class="nav-toggle__bars" aria-hidden="true">
-            <span class="nav-toggle__bar"></span>
-            <span class="nav-toggle__bar"></span>
-          </span>
-        </button>
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-red-600 to-amber-600 text-white p-4 sticky top-0 z-30 shadow-md">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight">Lokenath Restaurant & Hotel</h1>
+        <p class="text-xs text-amber-100 flex items-center gap-1 mt-0.5">
+          <i class="fa-solid fa-location-dot"></i> Kadamtala to Block Rd, RK Nagar
+        </p>
       </div>
+      <a href="tel:9387078054" class="bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 border border-white/30 backdrop-blur-sm">
+        <i class="fa-solid fa-phone"></i> Call
+      </a>
+    </div>
+    
+    <div class="mt-3 flex items-center justify-between bg-black/20 px-3 py-1.5 rounded-lg text-xs">
+      <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 9:00 AM - 8:00 PM</span>
+      <span class="bg-green-500 text-white font-bold px-2 py-0.5 rounded text-[10px]">DELIVERY OPEN</span>
     </div>
   </header>
 
-  <main id="main" tabindex="-1">
-    <section class="hero theme-dark" aria-labelledby="hero-title">
-      <div class="container hero__content">
-        <p class="eyebrow eyebrow--accent">Ramkrishna Nagar · Karimganj · Assam</p>
-        <h1 id="hero-title">Biriyani, momo, rice meals &amp; more.</h1>
-        <p class="lead hero__lead">Lokenath Restaurant &amp; Hotel on Main Road, Ramkrishna Nagar. Come and eat with us, or order home delivery from Kadamtala to Block Road.</p>
-        <div class="cluster hero__actions">
-          <a class="btn btn--primary" href="menu.html">View the menu</a>
-          <a class="btn btn--secondary" href="tel:+919387078054">Call +91 93870 78054</a>
-        </div>
-      </div>
-    </section>
+  <!-- Categories Scrollbar -->
+  <nav id="categoryNav" class="bg-white border-b sticky top-[98px] z-20 py-2.5 px-3 flex gap-2 overflow-x-auto no-scrollbar shadow-sm">
+    <button onclick="filterCategory('All')" class="cat-btn active bg-red-600 text-white px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap shadow-sm">All</button>
+  </nav>
 
-    <section class="section section--tight" aria-label="Quick information">
-      <div class="container">
-        <ul class="values" role="list">
-          <li class="value" data-reveal>
-            <span class="value__num">Home delivery</span>
-            <p class="text-muted">Kadamtala to Block Road (Ramkrishna Nagar).</p>
-          </li>
-          <li class="value" data-reveal style="--reveal-delay:100ms">
-            <span class="value__num">Timing</span>
-            <p class="text-muted">Every day, 9:00 am to 8:00 pm.</p>
-          </li>
-          <li class="value" data-reveal style="--reveal-delay:200ms">
-            <span class="value__num">Call to order</span>
-            <p><a class="link" href="tel:+919387078054">+91 93870 78054</a></p>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="section section--surface" aria-labelledby="serve-title">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <p class="eyebrow">What we serve</p>
-          <h2 id="serve-title">Something for every table.</h2>
-        </div>
-        <ul class="values" role="list">
-          <li class="value" data-reveal>
-            <h3 class="h4">Biriyani</h3>
-            <p class="text-muted">Mutton, chicken, paneer and egg biriyani, in full and half plates.</p>
-            <a class="link link-arrow" href="menu.html#mutton-biriyani-full">See biriyani</a>
-          </li>
-          <li class="value" data-reveal style="--reveal-delay:100ms">
-            <h3 class="h4">Rice meals (থালী)</h3>
-            <p class="text-muted">Mutton, chicken and egg curry thalis, several fish thalis and a vegetarian meal.</p>
-            <a class="link link-arrow" href="menu.html#mutton-thali">See rice meals</a>
-          </li>
-          <li class="value" data-reveal style="--reveal-delay:200ms">
-            <h3 class="h4">Momo</h3>
-            <p class="text-muted">Steam, fried, pan fried and butter toasted, in chicken and veg.</p>
-            <a class="link link-arrow" href="menu.html#chicken-steam-momo-full">See momo</a>
-          </li>
-          <li class="value" data-reveal>
-            <h3 class="h4">Chawmein &amp; fried rice</h3>
-            <p class="text-muted">Chicken, paneer, egg and veg chawmein, fried rice and Schezwan rice.</p>
-            <a class="link link-arrow" href="menu.html#chicken-chawmein-full">See chawmein</a>
-          </li>
-          <li class="value" data-reveal style="--reveal-delay:100ms">
-            <h3 class="h4">Rolls, burgers &amp; snacks</h3>
-            <p class="text-muted">Rolls, burgers, pokora, lolipop, paratha and other quick bites.</p>
-            <a class="link link-arrow" href="menu.html#chicken-roll">See rolls</a>
-          </li>
-          <li class="value" data-reveal style="--reveal-delay:200ms">
-            <h3 class="h4">Chat, soup &amp; drinks</h3>
-            <p class="text-muted">Chat, hot soups, coffee, lassi and shakes.</p>
-            <a class="link link-arrow" href="menu.html#plain-chat">See chat</a>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="featured-title">
-      <div class="container container--narrow">
-        <div class="section-head" data-reveal>
-          <p class="eyebrow">From the menu</p>
-          <h2 id="featured-title">Order a few favourites.</h2>
-          <p class="text-muted">Add dishes to your cart, then send the order to us on WhatsApp.</p>
-        </div>
-
-        <ul class="menu-list" role="list">
-          <li class="menu-row" data-reveal>
-            <div class="menu-row__body">
-              <h3 class="menu-row__name">Chicken Biriyani (Full)</h3>
-              <p class="menu-row__desc">Full plate</p>
-            </div>
-            <div class="menu-row__buy">
-              <span class="menu-row__price">₹180</span>
-              <button class="btn btn--secondary btn--sm" type="button" data-add-to-cart
-                      data-id="chicken-biriyani-full" data-name="Chicken Biriyani (Full)" data-price-cents="18000"
-                      data-image="">Add<span class="visually-hidden"> Chicken Biriyani (Full) to cart</span></button>
-            </div>
-          </li>
-          <li class="menu-row" data-reveal>
-            <div class="menu-row__body">
-              <h3 class="menu-row__name">Mutton Thali</h3>
-              <p class="menu-row__desc">মটন থালী</p>
-            </div>
-            <div class="menu-row__buy">
-              <span class="menu-row__price">₹220</span>
-              <button class="btn btn--secondary btn--sm" type="button" data-add-to-cart
-                      data-id="mutton-thali" data-name="Mutton Thali" data-price-cents="22000"
-                      data-image="">Add<span class="visually-hidden"> Mutton Thali to cart</span></button>
-            </div>
-          </li>
-          <li class="menu-row" data-reveal>
-            <div class="menu-row__body">
-              <h3 class="menu-row__name">Chicken Steam Momo (Full)</h3>
-              <p class="menu-row__desc">Full plate</p>
-            </div>
-            <div class="menu-row__buy">
-              <span class="menu-row__price">₹60</span>
-              <button class="btn btn--secondary btn--sm" type="button" data-add-to-cart
-                      data-id="chicken-steam-momo-full" data-name="Chicken Steam Momo (Full)" data-price-cents="6000"
-                      data-image="">Add<span class="visually-hidden"> Chicken Steam Momo (Full) to cart</span></button>
-            </div>
-          </li>
-          <li class="menu-row" data-reveal>
-            <div class="menu-row__body">
-              <h3 class="menu-row__name">Chicken Chawmein (Full)</h3>
-              <p class="menu-row__desc">Full plate</p>
-            </div>
-            <div class="menu-row__buy">
-              <span class="menu-row__price">₹100</span>
-              <button class="btn btn--secondary btn--sm" type="button" data-add-to-cart
-                      data-id="chicken-chawmein-full" data-name="Chicken Chawmein (Full)" data-price-cents="10000"
-                      data-image="">Add<span class="visually-hidden"> Chicken Chawmein (Full) to cart</span></button>
-            </div>
-          </li>
-          <li class="menu-row" data-reveal>
-            <div class="menu-row__body">
-              <h3 class="menu-row__name">Chicken Roll</h3>
-              <p class="menu-row__desc"></p>
-            </div>
-            <div class="menu-row__buy">
-              <span class="menu-row__price">₹70</span>
-              <button class="btn btn--secondary btn--sm" type="button" data-add-to-cart
-                      data-id="chicken-roll" data-name="Chicken Roll" data-price-cents="7000"
-                      data-image="">Add<span class="visually-hidden"> Chicken Roll to cart</span></button>
-            </div>
-          </li>
-        </ul>
-
-        <div class="cluster featured__actions" data-reveal>
-          <a class="btn btn--primary" href="menu.html">View full menu</a>
-          <a class="link link-arrow" href="cart.html">Go to cart</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--surface" aria-labelledby="functions-title">
-      <div class="container container--narrow stack" data-reveal>
-        <p class="eyebrow">Functions &amp; events</p>
-        <h2 id="functions-title">Food for your celebration.</h2>
-        <p class="lead" lang="bn">এখানে ভাত পাওয়া যায় এবং বিবাহ, অন্নপ্রাশন, জন্মদিন ও অন্যান্য অনুষ্ঠানের খাবারের অর্ডার রাখা হয়।</p>
-        <p>Rice meals are available here, and we take food orders for weddings, annaprashan, birthdays and other functions. Call or message us to talk about your event.</p>
-        <div class="cluster">
-          <a class="btn btn--primary" href="tel:+919387078054">Call +91 93870 78054</a>
-          <a class="btn btn--secondary" href="https://wa.me/919387078054" target="_blank" rel="noopener">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="visit-title">
-      <div class="container grid-12">
-        <div class="col-5 stack" data-reveal>
-          <p class="eyebrow">Visit us</p>
-          <h2 id="visit-title">Timing &amp; location.</h2>
-          <address class="stack" style="--stack-gap:var(--space-2)">
-            <span>Main Road, Ramkrishna Nagar<br>Dist. Karimganj, Assam</span>
-            <a class="link" href="tel:+919387078054">+91 93870 78054</a>
-          </address>
-          <a class="link link-arrow" href="contact.html">Directions &amp; contact</a>
-        </div>
-
-        <div class="col-6 col-start-7" data-reveal>
-          <p class="hours-status" data-hours-status aria-live="polite"></p>
-          <dl class="hours" data-hours>
-            <div class="hours__row"><dt>Every day</dt><dd>9:00 am – 8:00 pm</dd></div>
-          </dl>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--surface cta" aria-labelledby="cta-title">
-      <div class="container container--narrow text-center stack" data-reveal>
-        <p class="eyebrow">Hungry?</p>
-        <h2 id="cta-title">Order now.</h2>
-        <p class="lead">Pick your dishes from the menu, or just call us.</p>
-        <div class="cluster cta__actions">
-          <a class="btn btn--primary" href="menu.html">View the menu</a>
-          <a class="btn btn--secondary" href="tel:+919387078054">Call +91 93870 78054</a>
-        </div>
-      </div>
-    </section>
-
+  <!-- Menu List -->
+  <main class="p-3 max-w-lg mx-auto space-y-3" id="menuContainer">
+    <div class="text-center py-12 text-gray-400">
+      <i class="fa-solid fa-utensils text-3xl animate-bounce mb-2"></i>
+      <p class="text-sm">Loading Menu...</p>
+    </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <div class="site-footer__grid">
-        <div>
-          <a class="logo logo--lg" href="index.html" aria-label="Lokenath Restaurant and Hotel, home">
-            <svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-          <path d="M4 17h24c0 6-5.4 10-12 10S4 23 4 17Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
-          <path d="M11 13c-1.5-1.5 1.5-3 0-5M16 13c-1.5-1.5 1.5-3 0-5M21 13c-1.5-1.5 1.5-3 0-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <circle class="logo__dot" cx="16" cy="22" r="2.2"/>
-        </svg>
-            <span class="logo__word">Lokenath</span>
-          </a>
-          <p class="site-footer__blurb">Restaurant &amp; Hotel. Biriyani, momo, chawmein, rice meals and more.</p>
-        </div>
+  <!-- Sticky Bottom Cart Bar -->
+  <div id="cartBar" class="fixed bottom-0 left-0 right-0 p-3 bg-white border-t z-30 hidden shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
+    <div class="max-w-lg mx-auto flex items-center justify-between">
+      <div>
+        <p class="text-xs text-gray-500"><span id="cartCount" class="font-bold text-gray-800">0</span> ITEMS</p>
+        <p class="text-lg font-black text-gray-900">₹<span id="cartTotal">0</span></p>
+      </div>
+      <button onclick="openCheckoutModal()" class="bg-red-600 active:bg-red-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-md flex items-center gap-2">
+        View Cart <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
 
-        <div>
-          <h2 class="site-footer__heading">Visit</h2>
-          <address>
-            Main Road, Ramkrishna Nagar<br>
-            Dist. Karimganj, Assam<br>
-            <a class="link" href="tel:+919387078054">+91 93870 78054</a>
-          </address>
-        </div>
-
-        <div>
-          <h2 class="site-footer__heading">Timing</h2>
-          <p>
-            Every day<br>
-            9:00 am – 8:00 pm<br>
-            Home delivery: Kadamtala to Block Road
-          </p>
-        </div>
-
-        <nav aria-label="Footer">
-          <h2 class="site-footer__heading">Explore</h2>
-          <ul class="site-footer__list">
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="reservations.html">Book a table</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="cart.html">Cart</a></li>
-            <li><a href="https://wa.me/919387078054" target="_blank" rel="noopener">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-          </ul>
-        </nav>
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden backdrop-blur-sm">
+    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-200">
+      <div class="p-4 border-b flex justify-between items-center bg-gray-50">
+        <h3 class="font-bold text-gray-900">Checkout & Order</h3>
+        <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold px-2">&times;</button>
       </div>
 
-      <div class="site-footer__bottom">
-        <p>© <span data-year>2026</span> Lokenath Restaurant &amp; Hotel.</p>
-        <p><span class="badge">Demo</span>
-           Website design demo. No online payments; orders are confirmed by phone or WhatsApp.</p>
+      <div class="p-4 overflow-y-auto space-y-4 text-sm flex-1">
+        <div>
+          <h4 class="font-semibold text-xs text-gray-500 uppercase tracking-wider mb-2">Order Summary</h4>
+          <div id="checkoutItems" class="space-y-2 border-b pb-3"></div>
+          <div class="flex justify-between items-center pt-2 font-bold text-base">
+            <span>To Pay:</span>
+            <span class="text-red-600">₹<span id="modalTotal">0</span></span>
+          </div>
+        </div>
+
+        <form id="orderForm" onsubmit="handlePlaceOrder(event)" class="space-y-3 pt-2">
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Your Name *</label>
+            <input type="text" id="custName" required placeholder="Full Name" class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">WhatsApp Mobile *</label>
+            <input type="tel" id="custPhone" pattern="[0-9]{10}" required placeholder="10-digit number" class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Delivery Address * (Kadamtala to Block Rd)</label>
+            <textarea id="custAddress" required rows="2" placeholder="House no, Landmark, Area" class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 outline-none"></textarea>
+          </div>
+
+          <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800">
+            <i class="fa-solid fa-truck"></i> Cash on Delivery / UPI on Delivery
+          </div>
+
+          <button type="submit" id="submitBtn" class="w-full bg-green-600 hover:bg-green-700 active:scale-[0.99] text-white py-3 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-lg"></i> Place Order via WhatsApp
+          </button>
+        </form>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <script type="module" src="assets/js/main.js"></script>
-  <script type="module" src="assets/js/home.js"></script>
+  <script>
+    // Supabase Setup
+    const SUPABASE_URL = "https://amsshjptvzzoskcjqqbe.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_sJ_BAPbnHi_zyEiOr6YA0g_BHE_weNx";
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let allMenuItems = [];
+    let cart = {}; // key: "itemId_variant" => { id, name, variant, price, qty }
+
+    async function init() {
+      await fetchCategories();
+      await fetchMenuItems();
+    }
+
+    async function fetchCategories() {
+      const { data } = await db.from('categories').select('*').order('sort_order', { ascending: true });
+      if (data) {
+        const nav = document.getElementById('categoryNav');
+        data.forEach(c => {
+          const btn = document.createElement('button');
+          btn.className = "cat-btn bg-gray-100 text-gray-600 hover:bg-gray-200 px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-colors";
+          btn.textContent = c.name;
+          btn.onclick = () => filterCategory(c.name);
+          nav.appendChild(btn);
+        });
+      }
+    }
+
+    async function fetchMenuItems() {
+      const { data, error } = await db.from('menu_items')
+        .select('*, categories(name)')
+        .eq('is_available', true);
+
+      if (error) {
+        document.getElementById('menuContainer').innerHTML = `<p class="text-center text-red-500 text-sm">Failed to load menu: ${error.message}</p>`;
+        return;
+      }
+
+      allMenuItems = data;
+      renderMenu(allMenuItems);
+    }
+
+    function renderMenu(items) {
+      const container = document.getElementById('menuContainer');
+      container.innerHTML = '';
+
+      if (items.length === 0) {
+        container.innerHTML = `<p class="text-center text-gray-400 py-10 text-sm">No items available.</p>`;
+        return;
+      }
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white p-3.5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between gap-3";
+
+        const vegIcon = item.is_veg
+          ? `<span class="inline-flex items-center justify-center w-3.5 h-3.5 border border-green-600 rounded-sm p-[1px]"><span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span></span>`
+          : `<span class="inline-flex items-center justify-center w-3.5 h-3.5 border border-red-600 rounded-sm p-[1px]"><span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span></span>`;
+
+        let actionUI = '';
+
+        if (item.has_variants) {
+          const halfKey = `${item.id}_Half`;
+          const fullKey = `${item.id}_Full`;
+          actionUI = `
+            <div class="flex flex-col gap-1.5 items-end">
+              <div class="flex items-center gap-1">
+                <span class="text-[11px] text-gray-500 font-semibold">Half ₹${item.price_half}</span>
+                ${getCartButton(item, 'Half', item.price_half)}
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="text-[11px] text-gray-500 font-semibold">Full ₹${item.price_full}</span>
+                ${getCartButton(item, 'Full', item.price_full)}
+              </div>
+            </div>
+          `;
+        } else {
+          actionUI = `
+            <div class="flex flex-col items-end">
+              <span class="text-sm font-black text-gray-900 mb-1">₹${item.price_single}</span>
+              ${getCartButton(item, 'Regular', item.price_single)}
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              ${vegIcon}
+              <span class="text-xs text-amber-700 font-semibold uppercase">${item.categories?.name || ''}</span>
+            </div>
+            <h3 class="font-bold text-sm text-gray-800 leading-snug">${item.name}</h3>
+          </div>
+          <div>${actionUI}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function getCartButton(item, variant, price) {
+      const key = `${item.id}_${variant}`;
+      const qty = cart[key] ? cart[key].qty : 0;
+
+      if (qty > 0) {
+        return `
+          <div class="inline-flex items-center bg-red-50 border border-red-200 rounded-lg overflow-hidden">
+            <button onclick="updateQty('${key}', -1)" class="w-6 h-6 text-red-600 font-bold active:bg-red-100 flex items-center justify-center">-</button>
+            <span class="w-6 text-center text-xs font-bold text-red-700">${qty}</span>
+            <button onclick="updateQty('${key}', 1)" class="w-6 h-6 text-red-600 font-bold active:bg-red-100 flex items-center justify-center">+</button>
+          </div>
+        `;
+      }
+      return `
+        <button onclick="addToCart('${item.id}', '${encodeURIComponent(item.name)}', '${variant}', ${price})" 
+          class="bg-white text-red-600 border border-red-500 active:bg-red-600 active:text-white px-3 py-1 rounded-lg text-xs font-bold uppercase shadow-sm transition">
+          ADD
+        </button>
+      `;
+    }
+
+    function addToCart(id, rawName, variant, price) {
+      const name = decodeURIComponent(rawName);
+      const key = `${id}_${variant}`;
+      cart[key] = { id, name, variant, price, qty: 1 };
+      updateCartUI();
+    }
+
+    function updateQty(key, delta) {
+      if (cart[key]) {
+        cart[key].qty += delta;
+        if (cart[key].qty <= 0) delete cart[key];
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      let count = 0;
+      let total = 0;
+      for (const k in cart) {
+        count += cart[k].qty;
+        total += (cart[k].qty * cart[k].price);
+      }
+
+      document.getElementById('cartCount').textContent = count;
+      document.getElementById('cartTotal').textContent = total;
+      document.getElementById('modalTotal').textContent = total;
+
+      const bar = document.getElementById('cartBar');
+      if (count > 0) {
+        bar.classList.remove('hidden');
+      } else {
+        bar.classList.add('hidden');
+        closeCheckoutModal();
+      }
+
+      renderMenu(currentFilteredItems());
+    }
+
+    let activeCategory = 'All';
+    function filterCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        if (btn.textContent === cat) {
+          btn.className = "cat-btn active bg-red-600 text-white px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap shadow-sm";
+        } else {
+          btn.className = "cat-btn bg-gray-100 text-gray-600 hover:bg-gray-200 px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-colors";
+        }
+      });
+      renderMenu(currentFilteredItems());
+    }
+
+    function currentFilteredItems() {
+      if (activeCategory === 'All') return allMenuItems;
+      return allMenuItems.filter(i => i.categories?.name === activeCategory);
+    }
+
+    function openCheckoutModal() {
+      const container = document.getElementById('checkoutItems');
+      container.innerHTML = '';
+      for (const k in cart) {
+        const item = cart[k];
+        const line = document.createElement('div');
+        line.className = "flex justify-between items-center text-xs";
+        line.innerHTML = `
+          <span>${item.name} ${item.variant !== 'Regular' ? '(' + item.variant + ')' : ''} &times; ${item.qty}</span>
+          <span class="font-semibold">₹${item.qty * item.price}</span>
+        `;
+        container.appendChild(line);
+      }
+      document.getElementById('checkoutModal').classList.remove('hidden');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+    }
+
+    async function handlePlaceOrder(e) {
+      e.preventDefault();
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const submitBtn = document.getElementById('submitBtn');
+
+      const itemsArray = Object.values(cart);
+      let totalAmount = 0;
+      itemsArray.forEach(i => totalAmount += (i.qty * i.price));
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Processing...`;
+
+      // 1. Insert to Supabase DB
+      const { data, error } = await db.from('orders').insert([{
+        customer_name: name,
+        customer_phone: phone,
+        delivery_address: address,
+        items: itemsArray,
+        total_amount: totalAmount,
+        status: 'pending'
+      }]).select();
+
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<i class="fa-brands fa-whatsapp text-lg"></i> Place Order via WhatsApp`;
+
+      if (error) {
+        alert("Order submission error: " + error.message);
+        return;
+      }
+
+      const orderNumber = data[0]?.order_number || 'NEW';
+
+      // 2. Prepare WhatsApp Text
+      let waText = `*🔔 NEW ORDER (#${orderNumber})*\n`;
+      waText += `*Restaurant:* Lokenath Restaurant & Hotel\n`;
+      waText += `--------------------------\n`;
+      waText += `*Name:* ${name}\n`;
+      waText += `*Phone:* ${phone}\n`;
+      waText += `*Address:* ${address}\n`;
+      waText += `--------------------------\n*Items:*\n`;
+      itemsArray.forEach(i => {
+        waText += `• ${i.name} ${i.variant !== 'Regular' ? '(' + i.variant + ')' : ''} x ${i.qty} = ₹${i.qty * i.price}\n`;
+      });
+      waText += `--------------------------\n`;
+      waText += `*Total Amount:* ₹${totalAmount}\n`;
+      waText += `*Payment:* Cash on Delivery\n`;
+
+      const encodedUrl = `https://wa.me/919387078054?text=${encodeURIComponent(waText)}`;
+
+      // Reset cart and redirect
+      cart = {};
+      updateCartUI();
+      closeCheckoutModal();
+      window.location.href = encodedUrl;
+    }
+
+    init();
+  </script>
 </body>
 </html>
