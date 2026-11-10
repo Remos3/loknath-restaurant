@@ -12,36 +12,120 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     button:active { transform: scale(0.96); }
+
+    /* Auto Sliding Promo Animation */
+    @keyframes promoSlide {
+      0%, 20%   { transform: translateY(0%); }
+      25%, 45%  { transform: translateY(-25%); }
+      50%, 70%  { transform: translateY(-50%); }
+      75%, 95%  { transform: translateY(-75%); }
+      100%      { transform: translateY(0%); }
+    }
+    .promo-slider {
+      animation: promoSlide 10s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+    }
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800 pb-28 select-none">
 
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-red-600 to-amber-600 text-white p-4 sticky top-0 z-30 shadow-md">
-    <div class="flex justify-between items-center">
-      <div>
-        <h1 class="text-xl font-bold tracking-tight">Lokenath Restaurant & Hotel</h1>
-        <p class="text-xs text-amber-100 flex items-center gap-1 mt-0.5">
-          <i class="fa-solid fa-location-dot"></i> Kadamtala to Block Rd, RK Nagar
+  <!-- 1. Redesigned Clean Header -->
+  <header class="bg-gradient-to-r from-red-600 via-red-500 to-amber-600 text-white px-4 py-3 sticky top-0 z-40 shadow-md">
+    <div class="max-w-lg mx-auto flex justify-between items-center">
+      <!-- Restaurant Identity Left -->
+      <div class="min-w-0 pr-2">
+        <h1 class="text-lg sm:text-xl font-black tracking-tight leading-tight truncate">Lokenath Restaurant & Hotel</h1>
+        <p class="text-[11px] sm:text-xs text-amber-100/90 flex items-center gap-1.5 mt-0.5 font-medium truncate">
+          <i class="fa-solid fa-location-dot text-amber-300"></i> Kadamtala to Block Rd, RK Nagar
         </p>
       </div>
-      <a href="tel:9387078054" class="bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 border border-white/30 backdrop-blur-sm">
-        <i class="fa-solid fa-phone"></i> Call
-      </a>
-    </div>
-    
-    <div class="mt-3 flex items-center justify-between bg-black/20 px-3 py-1.5 rounded-lg text-xs">
-      <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 9:00 AM - 8:00 PM</span>
-      <span class="bg-green-500 text-white font-bold px-2 py-0.5 rounded text-[10px]">DELIVERY OPEN</span>
+
+      <!-- Hamburger Menu Icon Right -->
+      <button onclick="toggleSideMenu(true)" aria-label="Open Navigation" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white/15 hover:bg-white/25 active:scale-95 text-white transition border border-white/20 backdrop-blur-sm flex-shrink-0">
+        <i class="fa-solid fa-bars text-base"></i>
+      </button>
     </div>
   </header>
 
-  <!-- Categories Scrollbar -->
-  <nav id="categoryNav" class="bg-white border-b sticky top-[98px] z-20 py-2.5 px-3 flex gap-2 overflow-x-auto no-scrollbar shadow-sm">
+  <!-- Slide-out Hamburger Navigation Drawer -->
+  <div id="sideMenuBackdrop" onclick="toggleSideMenu(false)" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs"></div>
+  <aside id="sideMenuDrawer" class="fixed top-0 right-0 h-full w-72 max-w-[80vw] bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <!-- Drawer Header -->
+    <div class="p-5 bg-gradient-to-br from-red-600 to-amber-600 text-white flex justify-between items-start">
+      <div>
+        <h2 class="font-black text-base">Lokenath Restaurant</h2>
+        <p class="text-[11px] text-amber-100 mt-0.5">Fast Delivery & Fresh Food</p>
+      </div>
+      <button onclick="toggleSideMenu(false)" class="text-white/80 hover:text-white p-1 text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Drawer Links -->
+    <nav class="p-4 flex-1 space-y-1.5 text-sm font-semibold text-gray-700">
+      <a href="#" onclick="toggleSideMenu(false)" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-red-600 transition">
+        <i class="fa-solid fa-house w-5 text-gray-400"></i> Home
+      </a>
+      <button onclick="toggleSideMenu(false); openCheckoutModal();" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-red-600 transition text-left">
+        <span class="flex items-center gap-3"><i class="fa-solid fa-bag-shopping w-5 text-gray-400"></i> My Cart</span>
+        <span id="drawerCartBadge" class="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">0</span>
+      </button>
+      <a href="tel:9387078054" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-red-600 transition">
+        <i class="fa-solid fa-phone w-5 text-gray-400"></i> Contact & Support
+      </a>
+      <a href="#about" onclick="toggleSideMenu(false); alert('Lokenath Restaurant & Hotel\nKadamtala to Block Rd, RK Nagar\nAuthentic Biriyani, Meals & Chinese cuisine');" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-red-600 transition">
+        <i class="fa-solid fa-circle-info w-5 text-gray-400"></i> About Us
+      </a>
+      <a href="admin.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition border-t pt-3 mt-4 text-xs font-bold">
+        <i class="fa-solid fa-lock w-5"></i> Admin POS Login
+      </a>
+    </nav>
+
+    <!-- Drawer Footer -->
+    <div class="p-4 border-t text-center text-[11px] text-gray-400 bg-gray-50">
+      Delivery: 9:00 AM – 8:00 PM
+    </div>
+  </aside>
+
+  <!-- 2. Compact Promotional Hero Section (Height: ~105px) -->
+  <section class="max-w-lg mx-auto px-3 pt-3 pb-1">
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-white shadow-sm p-3.5 border border-amber-400/40">
+      
+      <!-- Top Row: Promo Tag & Delivery Badge -->
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[10px] font-black uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded-md backdrop-blur-xs flex items-center gap-1">
+          <i class="fa-solid fa-fire text-amber-200"></i> Specials Today
+        </span>
+        <span class="bg-emerald-500 text-white font-extrabold px-2 py-0.5 rounded-full text-[10px] shadow-xs flex items-center gap-1 tracking-wide">
+          <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> DELIVERY OPEN
+        </span>
+      </div>
+
+      <!-- Bottom Row: Animated Rotating Message Strip (Compact Carousel) -->
+      <div class="h-6 overflow-hidden relative">
+        <div class="promo-slider flex flex-col font-black text-sm tracking-tight text-white drop-shadow-xs">
+          <div class="h-6 flex items-center gap-2 truncate">
+            <i class="fa-solid fa-truck-fast text-amber-200 text-xs"></i> Fresh Food, Fast Delivery
+          </div>
+          <div class="h-6 flex items-center gap-2 truncate">
+            <i class="fa-regular fa-clock text-amber-200 text-xs"></i> Delivery Available: 9:00 AM – 8:00 PM
+          </div>
+          <div class="h-6 flex items-center gap-2 truncate">
+            <i class="fa-solid fa-utensils text-amber-200 text-xs"></i> Freshly Prepared Authentic Food
+          </div>
+          <div class="h-6 flex items-center gap-2 truncate">
+            <i class="fa-solid fa-mobile-screen-button text-amber-200 text-xs"></i> Easy Online WhatsApp Ordering
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Categories Scrollbar (Existing Structure Preserved) -->
+  <nav id="categoryNav" class="bg-white border-b sticky top-[61px] z-20 py-2.5 px-3 flex gap-2 overflow-x-auto no-scrollbar shadow-sm">
     <button onclick="filterCategory('All')" class="cat-btn active bg-red-600 text-white px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap shadow-sm">All</button>
   </nav>
 
-  <!-- Menu List -->
+  <!-- Menu List (Existing Structure Preserved) -->
   <main class="p-3 max-w-lg mx-auto space-y-3" id="menuContainer">
     <div class="text-center py-12 text-gray-400">
       <i class="fa-solid fa-utensils text-3xl animate-bounce mb-2"></i>
@@ -49,7 +133,7 @@
     </div>
   </main>
 
-  <!-- Sticky Bottom Cart Bar -->
+  <!-- Sticky Bottom Cart Bar (Preserved) -->
   <div id="cartBar" class="fixed bottom-0 left-0 right-0 p-3 bg-white border-t z-30 hidden shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
     <div class="max-w-lg mx-auto flex items-center justify-between">
       <div>
@@ -62,7 +146,7 @@
     </div>
   </div>
 
-  <!-- Checkout Modal -->
+  <!-- Checkout Modal (Preserved) -->
   <div id="checkoutModal" class="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden backdrop-blur-sm">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl max-h-[90vh] flex flex-col overflow-hidden">
       <div class="p-4 border-b flex justify-between items-center bg-gray-50">
@@ -114,6 +198,19 @@
     let cart = {};
     let activeCategory = 'All';
 
+    // Slide-out Navigation Toggle
+    function toggleSideMenu(isOpen) {
+      const drawer = document.getElementById('sideMenuDrawer');
+      const backdrop = document.getElementById('sideMenuBackdrop');
+      if (isOpen) {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+      } else {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
     async function init() {
       await fetchCategories();
       await fetchMenuItems();
@@ -158,6 +255,7 @@
       renderMenu(allMenuItems);
     }
 
+    // Dish name to WebP filename mapping
     function getDishImage(name) {
       const clean = name.toLowerCase()
         .replace(/\(.*?\)/g, '')
@@ -277,6 +375,7 @@
       document.getElementById('cartCount').textContent = count;
       document.getElementById('cartTotal').textContent = total;
       document.getElementById('modalTotal').textContent = total;
+      document.getElementById('drawerCartBadge').textContent = count;
 
       const bar = document.getElementById('cartBar');
       if (count > 0) {
