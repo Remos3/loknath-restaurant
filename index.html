@@ -56,7 +56,7 @@
       </button>
     </div>
 
-    <!-- Links -->
+    <!-- Navigation Links -->
     <nav class="p-4 flex-1 space-y-1.5 text-sm font-semibold text-gray-700">
       <a href="index.html" onclick="toggleSideMenu(false)" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-red-600 transition">
         <i class="fa-solid fa-house w-5 text-gray-400"></i> Home Menu
@@ -67,7 +67,7 @@
         <span id="drawerCartBadge" class="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">0</span>
       </button>
 
-      <!-- Book a Table Button -->
+      <!-- Book a Table Option -->
       <button onclick="toggleSideMenu(false); openTableModal();" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 transition text-left">
         <span class="flex items-center gap-3"><i class="fa-solid fa-chair w-5 text-amber-600"></i> Book a Table</span>
         <span class="text-[10px] bg-amber-600 text-white font-extrabold px-2 py-0.5 rounded-full">Reserve</span>
@@ -78,7 +78,7 @@
         <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Live</span>
       </a>
 
-      <!-- Auth State Button -->
+      <!-- Customer State / Auth Button -->
       <div id="authNavSection">
         <button onclick="toggleSideMenu(false); openAuthModal('login');" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-red-50 text-red-600 font-bold hover:bg-red-100 transition text-left">
           <i class="fa-solid fa-arrow-right-to-bracket w-5"></i> Login / Register
@@ -130,7 +130,7 @@
     </div>
   </section>
 
-  <!-- Categories -->
+  <!-- Categories Scrollbar -->
   <nav id="categoryNav" class="bg-white border-b sticky top-[61px] z-20 py-2.5 px-3 flex gap-2 overflow-x-auto no-scrollbar shadow-sm">
     <button onclick="filterCategory('All')" class="cat-btn active bg-red-600 text-white px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap shadow-sm">All</button>
   </nav>
@@ -143,7 +143,7 @@
     </div>
   </main>
 
-  <!-- Cart Bar -->
+  <!-- Bottom Sticky Cart Bar -->
   <div id="cartBar" class="fixed bottom-0 left-0 right-0 p-3 bg-white border-t z-30 hidden shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
     <div class="max-w-lg mx-auto flex items-center justify-between">
       <div>
@@ -224,7 +224,7 @@
         </div>
         <div>
           <label class="block font-bold text-gray-700 mb-1">Mobile Number *</label>
-          <input type="tel" id="tbPhone" pattern="[0-9]{10}" required placeholder="10-digit number" class="w-full border rounded-xl p-2.5 outline-none focus:border-red-500 text-sm">
+          <input type="tel" id="tbPhone" pattern="[0-9]{10}" required placeholder="10-digit mobile" class="w-full border rounded-xl p-2.5 outline-none focus:border-red-500 text-sm">
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
@@ -259,7 +259,7 @@
     </div>
   </div>
 
-  <!-- Auth Modal -->
+  <!-- Customer Auth Modal -->
   <div id="authModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
     <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative">
       <button onclick="closeAuthModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
@@ -271,6 +271,7 @@
 
       <div id="authAlert" class="hidden text-xs p-2.5 rounded-xl mb-3 font-semibold"></div>
 
+      <!-- Login Form -->
       <form id="loginForm" onsubmit="handleAuthLogin(event)" class="space-y-3 text-xs">
         <div>
           <label class="block font-bold text-gray-700 mb-1">Email</label>
@@ -285,6 +286,7 @@
         </button>
       </form>
 
+      <!-- Register Form -->
       <form id="registerForm" onsubmit="handleAuthRegister(event)" class="space-y-3 text-xs hidden">
         <div>
           <label class="block font-bold text-gray-700 mb-1">Full Name</label>
@@ -377,7 +379,8 @@
         booking_time: time,
         guest_count: Number(guests),
         special_request: notes || null,
-        status: 'pending'
+        status: 'pending',
+        user_id: currentCustomer ? currentCustomer.id : null
       }]);
 
       btn.disabled = false;
@@ -404,7 +407,7 @@
       window.location.href = `https://wa.me/919387078054?text=${encodeURIComponent(waText)}`;
     }
 
-    // --- AUTHENTICATION ---
+    // --- AUTHENTICATION LOGIC ---
     async function checkCustomerAuth() {
       const { data: { session } } = await db.auth.getSession();
       currentCustomer = session?.user || null;
@@ -546,8 +549,7 @@
       customerProfile = null;
       await checkCustomerAuth();
     }
-
-    // --- MENU & CART ---
+          // --- MENU & CART LOGIC ---
     async function fetchCategories() {
       const { data } = await db.from('categories').select('*').order('sort_order', { ascending: true });
       if (data && data.length > 0) {
