@@ -23,6 +23,21 @@
     .promo-slider {
       animation: promoSlide 10s cubic-bezier(0.77, 0, 0.175, 1) infinite;
     }
+
+    /* 3D Red & Gold Glow Brand Styling */
+    .brand-3d-text {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #ff0d0d;
+      text-shadow: 
+        0 1px 0 #ff8c00,
+        0 2px 0 #d97706,
+        0 3px 0 #b45309,
+        0 4px 6px rgba(0, 0, 0, 0.9),
+        0 0 14px rgba(255, 140, 0, 0.65);
+    }
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800 pb-28 select-none">
@@ -43,7 +58,7 @@
     </div>
   </header>
 
-  <!-- Slide-out Drawer -->
+  <!-- Slide-out Navigation Drawer -->
   <div id="sideMenuBackdrop" onclick="toggleSideMenu(false)" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs"></div>
   <aside id="sideMenuDrawer" class="fixed top-0 right-0 h-full w-72 max-w-[80vw] bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
     <div class="p-5 bg-gradient-to-br from-red-600 to-amber-600 text-white flex justify-between items-start">
@@ -56,7 +71,7 @@
       </button>
     </div>
 
-    <!-- Navigation Links -->
+    <!-- Navigation Options -->
     <nav class="p-4 flex-1 space-y-1.5 text-sm font-semibold text-gray-700">
       <a href="index.html" onclick="toggleSideMenu(false)" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-50 hover:text-red-600 transition">
         <i class="fa-solid fa-house w-5 text-gray-400"></i> Home Menu
@@ -67,7 +82,7 @@
         <span id="drawerCartBadge" class="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">0</span>
       </button>
 
-      <!-- Book a Table Option -->
+      <!-- Table Reservation Link -->
       <button onclick="toggleSideMenu(false); openTableModal();" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 transition text-left">
         <span class="flex items-center gap-3"><i class="fa-solid fa-chair w-5 text-amber-600"></i> Book a Table</span>
         <span class="text-[10px] bg-amber-600 text-white font-extrabold px-2 py-0.5 rounded-full">Reserve</span>
@@ -78,7 +93,7 @@
         <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Live</span>
       </a>
 
-      <!-- Customer State / Auth Button -->
+      <!-- Customer Auth State -->
       <div id="authNavSection">
         <button onclick="toggleSideMenu(false); openAuthModal('login');" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-red-50 text-red-600 font-bold hover:bg-red-100 transition text-left">
           <i class="fa-solid fa-arrow-right-to-bracket w-5"></i> Login / Register
@@ -99,7 +114,7 @@
     </div>
   </aside>
 
-  <!-- Compact Hero Section (~105px) -->
+  <!-- Specials Hero Banner (~105px) -->
   <section class="max-w-lg mx-auto px-3 pt-3 pb-1">
     <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-white shadow-sm p-3.5 border border-amber-400/40">
       <div class="flex items-center justify-between mb-2">
@@ -135,15 +150,76 @@
     <button onclick="filterCategory('All')" class="cat-btn active bg-red-600 text-white px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap shadow-sm">All</button>
   </nav>
 
-  <!-- Menu List -->
+  <!-- Food Menu List -->
   <main class="p-3 max-w-lg mx-auto space-y-3" id="menuContainer">
     <div class="text-center py-12 text-gray-400">
       <i class="fa-solid fa-utensils text-3xl animate-bounce mb-2"></i>
       <p class="text-sm font-semibold">Loading Menu...</p>
     </div>
   </main>
+    <!-- Restaurant Footer with 3D Red & Gold Glow Title -->
+  <footer class="mt-8 bg-black text-gray-300 pt-7 pb-28 border-t border-red-950/40">
+    <div class="max-w-lg mx-auto px-4 space-y-5">
+      
+      <!-- Brand Logo / 3D Title Section -->
+      <div class="text-center pt-2">
+        <div class="flex justify-center mb-1">
+          <img src="logo.jpg" 
+               onerror="this.style.display='none'; document.getElementById('css3dTitle').classList.remove('hidden');" 
+               alt="LOKENATH RESTAURANT & HOTEL" 
+               class="max-h-16 w-auto object-contain mx-auto drop-shadow-[0_4px_12px_rgba(255,100,0,0.35)]">
+        </div>
 
-  <!-- Bottom Sticky Cart Bar -->
+        <div id="css3dTitle" class="hidden">
+          <h2 class="brand-3d-text text-xl leading-tight">LOKENATH</h2>
+          <h3 class="brand-3d-text text-lg leading-tight mt-0.5">RESTAURANT & HOTEL</h3>
+        </div>
+
+        <p class="text-[11px] text-amber-200/80 mt-2 font-medium tracking-wide">
+          Kadamtala to Block Rd, RK Nagar
+        </p>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="grid grid-cols-2 gap-2 text-xs pt-1">
+        <a href="tel:9387078054" class="flex items-center justify-center gap-2 bg-neutral-900 hover:bg-neutral-800 text-white py-2.5 px-3 rounded-xl border border-neutral-800 transition">
+          <i class="fa-solid fa-phone text-amber-400"></i> Call Counter
+        </a>
+        <a href="https://wa.me/919387078054" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-950/60 hover:bg-emerald-900 text-emerald-400 py-2.5 px-3 rounded-xl border border-emerald-800/80 transition">
+          <i class="fa-brands fa-whatsapp text-emerald-400"></i> WhatsApp
+        </a>
+      </div>
+
+      <!-- Quick Links & Timings -->
+      <div class="grid grid-cols-2 gap-4 text-xs pt-2 border-t border-neutral-900">
+        <div>
+          <h4 class="text-white font-bold mb-2 uppercase tracking-wider text-[11px] text-amber-500">Quick Links</h4>
+          <ul class="space-y-1.5 text-gray-400">
+            <li><a href="index.html" class="hover:text-amber-400 transition">Menu Items</a></li>
+            <li><button onclick="openTableModal()" class="hover:text-amber-400 transition">Book a Table</button></li>
+            <li><a href="orders.html" class="hover:text-amber-400 transition">Track Live Order</a></li>
+            <li><a href="orders.html?view=table" class="hover:text-amber-400 transition">My Reservations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-2 uppercase tracking-wider text-[11px] text-amber-500">Timings & Pay</h4>
+          <p class="text-gray-400 leading-snug"><i class="fa-regular fa-clock text-amber-400 mr-1"></i> 9:00 AM – 8:00 PM</p>
+          <p class="text-gray-400 mt-1.5"><i class="fa-solid fa-money-bill-wave text-emerald-400 mr-1"></i> Cash & UPI Accepted</p>
+        </div>
+      </div>
+
+      <!-- Copyright & Staff Access -->
+      <div class="pt-3 border-t border-neutral-900 flex justify-between items-center text-[10px] text-gray-500">
+        <span>&copy; 2026 Lokenath Restaurant & Hotel</span>
+        <a href="admin.html" class="text-gray-600 hover:text-gray-400 flex items-center gap-1">
+          <i class="fa-solid fa-lock text-[9px]"></i> Staff Login
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Sticky Bottom Cart Bar -->
   <div id="cartBar" class="fixed bottom-0 left-0 right-0 p-3 bg-white border-t z-30 hidden shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
     <div class="max-w-lg mx-auto flex items-center justify-between">
       <div>
@@ -313,8 +389,8 @@
         </button>
       </form>
     </div>
-  </div>
-    <script>
+                                                                   </div>
+                                                                     <script>
     const SUPABASE_URL = "https://amsshjptvzzoskcjqqbe.supabase.co";
     const SUPABASE_KEY = "sb_publishable_sJ_BAPbnHi_zyEiOr6YA0g_BHE_weNx";
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -372,6 +448,7 @@
       btn.disabled = true;
       btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Reserving...`;
 
+      // user_id mapped for customer profile sync
       const { error } = await db.from('table_bookings').insert([{
         customer_name: name,
         customer_phone: phone,
@@ -549,7 +626,7 @@
       customerProfile = null;
       await checkCustomerAuth();
     }
-          // --- MENU & CART LOGIC ---
+                                                                           // --- MENU & CART LOGIC ---
     async function fetchCategories() {
       const { data } = await db.from('categories').select('*').order('sort_order', { ascending: true });
       if (data && data.length > 0) {
